@@ -13,7 +13,7 @@
   justify-content: space-between;
   padding: 5px 20px;
   font-size: 16px;
-  background-color: rgb(249, 224, 163);
+  background-color: rgb(250, 223, 163);
 }
 
 .viewBcard{
@@ -23,7 +23,7 @@
   justify-content: space-between;
   padding: 5px 20px;
   font-size: 16px;
-  background-color: rgb(249, 173, 163);
+  background-color: rgb(219, 210, 199);
 }
 
 .ENSToBcardID{
@@ -33,7 +33,7 @@
   justify-content: space-between;
   padding: 5px 20px;
   font-size: 16px;
-  background-color: rgb(163, 164, 249);
+  background-color: rgb(189, 191, 195);
 }
 
 .transfer{
@@ -43,7 +43,7 @@
   justify-content: space-between;
   padding: 5px 20px;
   font-size: 16px;
-  background-color: rgb(163, 249, 215);
+  background-color: rgb(103, 114, 150);
 }
 
 .button{
@@ -51,7 +51,7 @@
   border-radius: 50px;
   padding: 3px 9px;
   cursor: pointer;
-  background-color: rgb(95, 131, 108);
+  background-color: rgb(49, 62, 90);
 }
 
 .BcardLogo{
