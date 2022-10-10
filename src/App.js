@@ -152,7 +152,7 @@ function App() {
         </form>
       </div>
 
-      {/* <div className="main">
+      <div className="main">
         {nfts.list.map((nft,index) =>{
           return(
             <div key={index} className="card">
@@ -179,7 +179,7 @@ function App() {
           )
         })}
 
-      </div> */}
+      </div>
       
     </div>
   );
