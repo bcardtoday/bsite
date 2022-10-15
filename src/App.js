@@ -1,25 +1,33 @@
 import './App.css';
 import {ethers} from "ethers";
 import {useState, useEffect} from "react";
-import { GiCandyCanes } from "react-icons/gi";
 import abi from "./abi/abi.json";
 import data from "./data/data.json";
-import { hexConcat } from 'ethers/lib/utils';
+import Popup from "./components/popup";
 
 
 function App() {
   const [account,setAccount]=useState("");
   const [provider,setProvider]=useState(null);
   const [signer, setSigner] = useState(null);
+  const [boxIsOpen, setBoxOpen] = useState(false);
   const [nfts,setNfts]= useState(data);
   const [tempURL,setURL]=useState(null);
   const [bcardIDofAddress,setbcardIDofAddress]=useState(null);
   const [addressOfENS,setaddressOfENS]=useState(null);
+  const polyAPI = "https://polygon-mainnet.infura.io/v3/f323f21ff16a408da14744c8046a3572";
+  const ethAPI = "https://mainnet.infura.io/v3/5f4ad9f5a7af44cf9b263703076aefd7";
+  const network = process.env.POLYGON_NETWORK;
+  const polyProvider = new ethers.providers.InfuraProvider(
+    network,
+    process.env.polyAPI
+  );
 
   //set networks
   const bcardContract = new ethers.Contract("0xc6Dd0F44910eC78DAEa928C4d855A1a854752964",abi,provider);
-  const Web3 = require('web3')
-  const ensInfura = new Web3(new Web3.providers.HttpProvider("https://mainnet.infura.io/v3/5f4ad9f5a7af44cf9b263703076aefd7")) 
+  const Web3 = require('web3');
+  const ensInfura = new Web3(new Web3.providers.HttpProvider(ethAPI));
+  // const bcardContract = new ethers.Contract("0xc6Dd0F44910eC78DAEa928C4d855A1a854752964",abi,polyProvider);
 
   const balance = async(nft)=>{
     const contract = new ethers.Contract(nft.address,abi,provider);
@@ -39,13 +47,43 @@ function App() {
     });
   }
 
+  const polyConnection = async () => {
+    const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+    if (chainId != "0x89"){
+      togglePopup(); 
+      window.ethereum.request({
+        method: "wallet_addEthereumChain",
+        params: [{
+            chainId: "0x89",
+            rpcUrls: ["https://polygon-rpc.com/"],
+            chainName: "Matic Mainnet",
+            nativeCurrency: {
+                name: "MATIC",
+                symbol: "MATIC",
+                decimals: 18
+            },
+            blockExplorerUrls: ["https://explorer.matic.network"]
+        }]
+      });
+      
+    }    
+  }
+
   const initConnection = async () => {
     if (typeof window.ethereum !=="undefined"){
       const accounts = await window.ethereum.request({
         method: "eth_requestAccounts",
       });
-      let tempProvider = new ethers.providers.Web3Provider(window.ethereum);
-      setProvider(tempProvider);
+      polyConnection();
+      let tempProvider = null;
+      tempProvider = new ethers.providers.Web3Provider(window.ethereum);
+      // if (tempProvider == null) {
+      //   tempProvider = polyProvider;
+      //   setProvider(tempProvider);
+      // } else {
+        setProvider(tempProvider);
+      // }
+      
       setAccount(accounts[0]);
       let tempSigner = tempProvider.getSigner();
   		setSigner(tempSigner);
@@ -56,6 +94,7 @@ function App() {
   
   const viewBcardHandler = async(event) => {
 		event.preventDefault();
+    polyConnection();
 		const tempURL = await bcardContract.uri(event.target.BcardID.value);
     const jsonURL = JSON.parse(atob(tempURL.substring(29)));
     setURL(jsonURL.image);
@@ -63,6 +102,7 @@ function App() {
 
   const ENSToBcardIDHandler = async(event) => {
 		event.preventDefault();
+    polyConnection();
     ensInfura.eth.ens.getOwner(event.target.address.value+'.eth').then(async function (address) {
       setaddressOfENS(address);
       var bcardIDBigNumber = await bcardContract.AddressToTokenID(address);
@@ -73,8 +113,7 @@ function App() {
 
   const transferToENSHandler = async(event) => {
 		event.preventDefault();
-    
-
+    polyConnection();
     ensInfura.eth.ens.getOwner(event.target.ens.value+'.eth').then(async function (address) {
       const sendTo = address.toString();
       
@@ -82,13 +121,50 @@ function App() {
       const signer = provider.getSigner();
       const nftContract = new ethers.Contract("0xc6Dd0F44910eC78DAEa928C4d855A1a854752964", abi, signer);
       const accounts = await window.ethereum.request({method: "eth_requestAccounts",});
-      const currentAccount = accounts[0].toString();
-      
+      const currentAccount = accounts[0].toString();  
       // var bcardIDBigNumber = await bcardContract.AddressToTokenID(currentAccount);
       // let bCardID = parseInt(bcardIDBigNumber._hex, 16);
       let nftTransfer = await nftContract["safeTransferFrom(address,address,uint256,uint256,bytes)"](currentAccount, sendTo , event.target.bcardID.value , 1 , "0x");
 	  });
   }
+
+  const updateBCardHandler = async(event) => {
+		event.preventDefault();
+    polyConnection();
+    const bcardID = event.target.bcardID.value;
+    const ethName = event.target.ethName.value;
+    const nickName = event.target.nickName.value;
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    const nftContract = new ethers.Contract("0xc6Dd0F44910eC78DAEa928C4d855A1a854752964", abi, signer);
+    let nftUpdate = await nftContract["updateEthName(uint256,string,string)"](bcardID, ethName, nickName);
+  };
+
+  const mintNewHandler = async(event) => {
+		event.preventDefault();
+    polyConnection();
+    const ethName = event.target.ethName.value;
+    const nickName = event.target.nickName.value;
+    const addressTo = event.target.address.value;
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    const nftContract = new ethers.Contract("0xc6Dd0F44910eC78DAEa928C4d855A1a854752964", abi, signer);
+    let nftNew = await nftContract["mintNew(string,string,address)"](ethName, nickName, addressTo);
+  };
+
+  const addBcardHandler = async(event) => {
+		event.preventDefault();
+    polyConnection();
+    const bcardID = event.target.bcardID.value;
+    const num = event.target.num.value;
+    const addressTo = event.target.address.value;
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    const nftContract = new ethers.Contract("0xc6Dd0F44910eC78DAEa928C4d855A1a854752964", abi, signer);
+    // let nftAdd = await nftContract["mintAdd(MATIC,address,uint256,uint256)"](0, addressTo, bcardID, num);
+    let nftAdd = await nftContract["mintAdd(address,uint256,uint256)"](addressTo, bcardID, num);
+  };
+
 
   useEffect(() => {
     initConnection();
@@ -98,9 +174,19 @@ function App() {
     checkCollection();
   },[account]);
 
+  const togglePopup = () =>{
+    setBoxOpen(!boxIsOpen);
+  }
+
   return (
     <div className="page">
       <div className="header">
+      {boxIsOpen && <Popup 
+        content={<div>
+          <p>Please switch to Polygon network and retry</p>
+          </div>}
+        handleClose={togglePopup}
+      />}
         <img src={require(`./assets/images/logo.png`)} alt="Logo" className="BcardLogo"/>
         <p>
           Bcard Transfer
@@ -116,21 +202,23 @@ function App() {
       
       <div className="viewBcard">
         <form onSubmit={viewBcardHandler}>
+          <label>Bcard ID: </label>
           <input id="BcardID" type="number"/>
-          <button type={"submit"}> View Bcard ID </button>
-          <p>
-               
-          </p>
+          <button type={"submit"}> View this Bcard </button>
+          <p></p>
           <img
             src = {tempURL}
             className="" alt=""
           />
         </form>
+        
       </div>
 
       <div className="ENSToBcardID">
         <form onSubmit={ENSToBcardIDHandler}>
+          <label>ENS: </label>
           <input id="address" type="text"/>
+          <label>.eth </label>
           <button type={"submit"}> Get address & Bcard ID of this ENS </button>
           <p>
             {addressOfENS}
@@ -143,14 +231,53 @@ function App() {
 
       <div className="transfer">
         <form onSubmit={transferToENSHandler}>
+          <label>My Bcard ID: </label>
           <input id="bcardID" type="number"/>
+          <label> Recipient ENS: </label>
           <input id="ens" type="text"/>
-          <button type={"submit"}> Send Bcard ID ? to ENS ? </button>
+          <label>.eth: </label>
+          <button type={"submit"}> Send 1 Bcard</button>
           <p>
-            
           </p>
         </form>
       </div>
+
+      <div className="updateBcard">
+        <form onSubmit={updateBCardHandler}>
+          <label>My Bcard ID: </label>
+          <input id="bcardID" type="number"/>
+          <label> New ENS: </label>
+          <input id="ethName" type="text"/>
+          <label>.eth; </label>
+          <label> New subtext: </label>
+          <input id="nickName" type="text"/>
+          <button type={"submit"}>Update my Bcard infor</button>
+        </form>
+      </div>
+
+      {/* <div className="mintNewBcard">
+        <form onSubmit={mintNewHandler}>
+          <label>My ETH name: </label>
+          <input id="ethName" type="number"/>
+          <label> My nickname: </label>
+          <input id="nickName" type="text"/>
+          <label> Mint to address: </label>
+          <input id="address" type="text"/>
+          <button type={"submit"}>Creat new Bcard</button>
+        </form>
+      </div>
+
+      <div className="addBcard">
+        <form onSubmit={addBcardHandler}>
+          <label>My Bcard ID: </label>
+          <input id="bcardID" type="number"/>
+          <label> Num of cards: </label>
+          <input id="num" type="text"/>
+          <label> Mint to address: </label>
+          <input id="address" type="text"/>
+          <button type={"submit"}>Add more Bcard</button>
+        </form>
+      </div> */}
 
       {/* <div className="main">
         {nfts.list.map((nft,index) =>{
