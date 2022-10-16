@@ -240,7 +240,7 @@ function App() {
           <label> Recipient ENS: </label>
           <input id="ens" type="text"/>
           <label>.eth;</label>
-          <label> Num of cards: </label>
+          <label> Num of Bcards: </label>
           <input id="num" type="text"/>
           <button type={"submit"}> Send my Bcard</button>
           <p>
@@ -285,7 +285,7 @@ function App() {
         <form onSubmit={addBcardHandler}>
           <label>My Bcard ID: </label>
           <input id="bcardID" type="number"/>
-          <label> Num of cards: </label>
+          <label> Num of Bcards: </label>
           <input id="num" type="number"/>
           <label> Mint to address: </label>
           <input id="address" type="text"/>
