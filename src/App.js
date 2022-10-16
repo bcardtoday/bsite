@@ -272,7 +272,7 @@ function App() {
       <div className="mintNewBcard">
         <form onSubmit={mintNewHandler}>
           <label>My ENS: </label>
-          <input id="ethName" type="number"/>
+          <input id="ethName" type="text"/>
           <label> My subtext: </label>
           <input id="nickName" type="text"/>
           <label> Mint to address: </label>
@@ -286,7 +286,7 @@ function App() {
           <label>My Bcard ID: </label>
           <input id="bcardID" type="number"/>
           <label> Num of cards: </label>
-          <input id="num" type="text"/>
+          <input id="num" type="number"/>
           <label> Mint to address: </label>
           <input id="address" type="text"/>
           <button type={"submit"}>Add more Bcard</button>
