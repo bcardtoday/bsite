@@ -22,13 +22,13 @@ function App() {
     network,
     process.env.polyAPI
   );
+  let web3UserPoly = null;
 
   //set networks
   const bcardContract = new ethers.Contract("0xc6Dd0F44910eC78DAEa928C4d855A1a854752964",abi,provider);
   const Web3 = require('web3');
   const ensInfura = new Web3(new Web3.providers.HttpProvider(ethAPI));
-  // const bcardContract = new ethers.Contract("0xc6Dd0F44910eC78DAEa928C4d855A1a854752964",abi,polyProvider);
-
+  
   const balance = async(nft)=>{
     const contract = new ethers.Contract(nft.address,abi,provider);
     const tempBalance = await contract.balanceOf(account,nft.id);
@@ -77,6 +77,7 @@ function App() {
       polyConnection();
       let tempProvider = null;
       tempProvider = new ethers.providers.Web3Provider(window.ethereum);
+      
       // if (tempProvider == null) {
       //   tempProvider = polyProvider;
       //   setProvider(tempProvider);
@@ -116,7 +117,7 @@ function App() {
     polyConnection();
     ensInfura.eth.ens.getOwner(event.target.ens.value+'.eth').then(async function (address) {
       const sendTo = address.toString();
-      
+      const num = event.target.num.value;
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
       const nftContract = new ethers.Contract("0xc6Dd0F44910eC78DAEa928C4d855A1a854752964", abi, signer);
@@ -124,7 +125,7 @@ function App() {
       const currentAccount = accounts[0].toString();  
       // var bcardIDBigNumber = await bcardContract.AddressToTokenID(currentAccount);
       // let bCardID = parseInt(bcardIDBigNumber._hex, 16);
-      let nftTransfer = await nftContract["safeTransferFrom(address,address,uint256,uint256,bytes)"](currentAccount, sendTo , event.target.bcardID.value , 1 , "0x");
+      let nftTransfer = await nftContract["safeTransferFrom(address,address,uint256,uint256,bytes)"](currentAccount, sendTo , event.target.bcardID.value , num , "0x");
 	  });
   }
 
@@ -160,8 +161,11 @@ function App() {
     const addressTo = event.target.address.value;
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
+    
+    // const testContract = new ethers.Contract("0x332E66C2A733ED9aB43342B8B34d1ECbC746Be33", abi, signer);
+    // let nftAdd = await testContract["mintAdd(address,uint256,uint256)"](addressTo, bcardID, num);
+
     const nftContract = new ethers.Contract("0xc6Dd0F44910eC78DAEa928C4d855A1a854752964", abi, signer);
-    // let nftAdd = await nftContract["mintAdd(MATIC,address,uint256,uint256)"](0, addressTo, bcardID, num);
     let nftAdd = await nftContract["mintAdd(address,uint256,uint256)"](addressTo, bcardID, num);
   };
 
@@ -235,11 +239,21 @@ function App() {
           <input id="bcardID" type="number"/>
           <label> Recipient ENS: </label>
           <input id="ens" type="text"/>
-          <label>.eth: </label>
-          <button type={"submit"}> Send 1 Bcard</button>
+          <label>.eth;</label>
+          <label> Num of cards: </label>
+          <input id="num" type="text"/>
+          <button type={"submit"}> Send my Bcard</button>
           <p>
           </p>
         </form>
+      </div>
+
+      <div className="break">
+        <p></p>
+        <p>
+          Bcard Update & Mint New
+        </p>
+        <p></p>
       </div>
 
       <div className="updateBcard">
@@ -251,19 +265,19 @@ function App() {
           <label>.eth; </label>
           <label> New subtext: </label>
           <input id="nickName" type="text"/>
-          <button type={"submit"}>Update my Bcard infor</button>
+          <button type={"submit"}>Update my Bcard info</button>
         </form>
       </div>
 
-      {/* <div className="mintNewBcard">
+      <div className="mintNewBcard">
         <form onSubmit={mintNewHandler}>
-          <label>My ETH name: </label>
+          <label>My ENS: </label>
           <input id="ethName" type="number"/>
-          <label> My nickname: </label>
+          <label> My subtext: </label>
           <input id="nickName" type="text"/>
           <label> Mint to address: </label>
           <input id="address" type="text"/>
-          <button type={"submit"}>Creat new Bcard</button>
+          <button type={"submit"}>Create new Bcard</button>
         </form>
       </div>
 
@@ -277,7 +291,7 @@ function App() {
           <input id="address" type="text"/>
           <button type={"submit"}>Add more Bcard</button>
         </form>
-      </div> */}
+      </div>
 
       {/* <div className="main">
         {nfts.list.map((nft,index) =>{
