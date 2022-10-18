@@ -3,9 +3,19 @@
   padding: 0;
 }
 
+.direction {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: rgb(131, 166, 179);
+}
+
 body {
   margin: 0;
   font-family: Monaco, Consolas, "Courier New", monospace;
-  background-color: rgb(191, 191, 191);
+  background-color: rgb(89, 112, 136);
   color: black;
 }

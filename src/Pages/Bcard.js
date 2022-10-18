@@ -12,6 +12,8 @@ export function Bcard() {
   const [boxIsOpen, setBoxOpen] = useState(false);
   const [nfts, setNfts] = useState(data);
   const [tempURL, setURL] = useState(null);
+  const [numCardCollected, setNumCardCollected] = useState(null);
+  const [numCardToMint, setNumCardToMint] = useState(null);
   const [bcardIDofAddress, setbcardIDofAddress] = useState(null);
   const [addressOfENS, setaddressOfENS] = useState(null);
   const polyAPI =
@@ -105,13 +107,25 @@ export function Bcard() {
     const tempURL = await bcardContract.uri(event.target.BcardID.value);
     const jsonURL = JSON.parse(atob(tempURL.substring(29)));
     setURL(jsonURL.image);
+    const tempNumCardCollected = await bcardContract.checkTotalCardCollected(
+      event.target.BcardID.value
+    );
+    let tempNumCardCollected2 = parseInt(tempNumCardCollected._hex, 16);
+    setNumCardCollected("Num of Bcards collected: " + tempNumCardCollected2);
+    const tempNumCardToMint = await bcardContract.checkNewCardforMint(
+      event.target.BcardID.value
+    );
+    let tempNumCardToMint2 = parseInt(tempNumCardToMint._hex, 16);
+    setNumCardToMint("Num of new Bcards to mint: " + tempNumCardToMint2);
+    console.log(numCardToMint);
   };
 
   const ENSToBcardIDHandler = async (event) => {
     event.preventDefault();
     polyConnection();
+
     ensInfura.eth.ens
-      .getOwner(event.target.address.value + ".eth")
+      .getAddress(event.target.address.value + ".eth")
       .then(async function (address) {
         setaddressOfENS(address);
         var bcardIDBigNumber = await bcardContract.AddressToTokenID(address);
@@ -124,9 +138,10 @@ export function Bcard() {
     event.preventDefault();
     polyConnection();
     ensInfura.eth.ens
-      .getOwner(event.target.ens.value + ".eth")
+      .getAddress(event.target.ens.value + ".eth")
       .then(async function (address) {
         const sendTo = address.toString();
+
         const num = event.target.num.value;
         const provider = new ethers.providers.Web3Provider(window.ethereum);
         const signer = provider.getSigner();
@@ -145,6 +160,32 @@ export function Bcard() {
           "safeTransferFrom(address,address,uint256,uint256,bytes)"
         ](currentAccount, sendTo, event.target.bcardID.value, num, "0x");
       });
+  };
+
+  const transferToBcardHandler = async (event) => {
+    event.preventDefault();
+    polyConnection();
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    const nftContract = new ethers.Contract(
+      "0xc6Dd0F44910eC78DAEa928C4d855A1a854752964",
+      abi,
+      signer
+    );
+    const accounts = await window.ethereum.request({
+      method: "eth_requestAccounts",
+    });
+    const currentAccount = accounts[0].toString();
+    var sendTo = await bcardContract.getMinter(event.target.toBcardID.value);
+    let nftTransfer = await nftContract[
+      "safeTransferFrom(address,address,uint256,uint256,bytes)"
+    ](
+      currentAccount,
+      sendTo,
+      event.target.bcardID.value,
+      event.target.num.value,
+      "0x"
+    );
   };
 
   const updateBCardHandler = async (event) => {
@@ -258,6 +299,8 @@ export function Bcard() {
           <button type={"submit"}> View this Bcard </button>
           <p></p>
           <img src={tempURL} className="" alt="" />
+          <p>{numCardCollected}</p>
+          <p>{numCardToMint}</p>
         </form>
       </div>
 
@@ -272,7 +315,28 @@ export function Bcard() {
         </form>
       </div>
 
-      <div className="transfer">
+      <div className="transferBcard-title">
+        <p> Send Bcard to Bcard ID </p>
+      </div>
+
+      <div className="transferBcard">
+        <form onSubmit={transferToBcardHandler}>
+          <label>My Bcard ID: </label>
+          <input id="bcardID" type="number" />
+          <label> Recipient Bcard ID: </label>
+          <input id="toBcardID" type="number" />
+          <label> Num of Bcards: </label>
+          <input id="num" type="text" />
+          <button type={"submit"}> Send my Bcard</button>
+          <p></p>
+        </form>
+      </div>
+
+      <div className="transferENS-title">
+        <p> Send Bcard to ENS </p>
+      </div>
+
+      <div className="transferENS">
         <form onSubmit={transferToENSHandler}>
           <label>My Bcard ID: </label>
           <input id="bcardID" type="number" />
@@ -359,5 +423,3 @@ export function Bcard() {
     </div>
   );
 }
-
-// export default App;

@@ -7,14 +7,13 @@ import "./Main.css";
 function Main() {
   return (
     <>
-      <div>hello this is main page</div>
-      <nav>
+      <nav className="direction">
         <ul>
           <li>
-            <Link to="/">Home</Link>
+            <Link to="/home">Home</Link>
           </li>
           <li>
-            <Link to="/bcard">Bcard</Link>
+            <Link to="/">Bcard</Link>
           </li>
           <li>
             <Link to="/bpaper">Bpaper</Link>
@@ -22,9 +21,9 @@ function Main() {
         </ul>
       </nav>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/home" element={<Home />} />
         <Route path="/bpaper" element={<Bpaper />} />
-        <Route path="/bcard" element={<Bcard />} />
+        <Route path="/" element={<Bcard />} />
       </Routes>
     </>
   );
