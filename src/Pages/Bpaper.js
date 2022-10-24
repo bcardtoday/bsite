@@ -2,6 +2,8 @@ import "./Bpaper.css";
 import { ethers } from "ethers";
 import { useState, useEffect } from "react";
 import abi from ".././abi/abi.json";
+import previewabi from ".././abi/preview.json";
+import bpaperabi from ".././abi/bpaperabi.json";
 import data from ".././data/data.json";
 import Popup from ".././components/popup";
 
@@ -12,8 +14,10 @@ export function Bpaper() {
   const [boxIsOpen, setBoxOpen] = useState(false);
   const [nfts, setNfts] = useState(data);
   const [tempURL, setURL] = useState(null);
-  const [numCardCollected, setNumCardCollected] = useState(null);
-  const [numCardToMint, setNumCardToMint] = useState(null);
+  const [numCardOwned, setNumCardOwned] = useState(null);
+  const [previewURL, setPreview] = useState(null);
+  const [mintMsg, setMintMsg] = useState(null);
+  const [amendMsg, setAmendMsg] = useState(null);
   const [bcardIDofAddress, setbcardIDofAddress] = useState(null);
   const [addressOfENS, setaddressOfENS] = useState(null);
   const polyAPI =
@@ -33,6 +37,13 @@ export function Bpaper() {
     abi,
     provider
   );
+
+  const bcardContract = new ethers.Contract(
+    "0xc6Dd0F44910eC78DAEa928C4d855A1a854752964",
+    abi,
+    provider
+  );
+
   const Web3 = require("web3");
   const ensInfura = new Web3(new Web3.providers.HttpProvider(ethAPI));
 
@@ -107,122 +118,159 @@ export function Bpaper() {
     const tempURL = await bpaperContract.uri(event.target.BpaperID.value);
     const jsonURL = JSON.parse(atob(tempURL.substring(29)));
     setURL(jsonURL.image);
-    // const tempNumCardCollected = await bcardContract.checkTotalCardCollected(
-    //   event.target.BcardID.value
-    // );
-    // let tempNumCardCollected2 = parseInt(tempNumCardCollected._hex, 16);
-    // setNumCardCollected("Num of Bcards collected: " + tempNumCardCollected2);
-    // const tempNumCardToMint = await bcardContract.checkNewCardforMint(
-    //   event.target.BcardID.value
-    // );
-    // let tempNumCardToMint2 = parseInt(tempNumCardToMint._hex, 16);
-    // setNumCardToMint("Num of new Bcards to mint: " + tempNumCardToMint2);
-    // console.log(numCardToMint);
+    const accounts = await window.ethereum.request({
+      method: "eth_requestAccounts",
+    });
+    const currentAccount = accounts[0].toString();
+    const tempNumOwned = await bpaperContract.balanceOf(
+      currentAccount,
+      event.target.BpaperID.value
+    );
+    let tempNumOwned2 = parseInt(tempNumOwned._hex, 16);
+    setNumCardOwned("Num of this Bcard that you own: " + tempNumOwned2);
   };
 
-  // const ENSToBcardIDHandler = async (event) => {
-  //   event.preventDefault();
-  //   polyConnection();
-  //   ensInfura.eth.ens
-  //     .getOwner(event.target.address.value + ".eth")
-  //     .then(async function (address) {
-  //       setaddressOfENS(address);
-  //       var bcardIDBigNumber = await bcardContract.AddressToTokenID(address);
-  //       let bCardID = parseInt(bcardIDBigNumber._hex, 16);
-  //       setbcardIDofAddress(bCardID);
-  //     });
-  // };
+  const transferToBcardHandler = async (event) => {
+    event.preventDefault();
+    polyConnection();
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    const nftContract = new ethers.Contract(
+      "0xAEdc4773262c9036BDD3B0c9e4A53F39672A9f26",
+      abi,
+      signer
+    );
+    const accounts = await window.ethereum.request({
+      method: "eth_requestAccounts",
+    });
+    const currentAccount = accounts[0].toString();
+    var sendTo = await bcardContract.getMinter(event.target.toBcardID.value);
+    let nftTransfer = await nftContract[
+      "safeTransferFrom(address,address,uint256,uint256,bytes)"
+    ](
+      currentAccount,
+      sendTo,
+      event.target.bpaperID.value,
+      event.target.num.value,
+      "0x"
+    );
+  };
 
-  // const transferToENSHandler = async (event) => {
-  //   event.preventDefault();
-  //   polyConnection();
-  //   ensInfura.eth.ens
-  //     .getOwner(event.target.ens.value + ".eth")
-  //     .then(async function (address) {
-  //       const sendTo = address.toString();
-  //       const num = event.target.num.value;
-  //       const provider = new ethers.providers.Web3Provider(window.ethereum);
-  //       const signer = provider.getSigner();
-  //       const nftContract = new ethers.Contract(
-  //         "0xc6Dd0F44910eC78DAEa928C4d855A1a854752964",
-  //         abi,
-  //         signer
-  //       );
-  //       const accounts = await window.ethereum.request({
-  //         method: "eth_requestAccounts",
-  //       });
-  //       const currentAccount = accounts[0].toString();
-  //       // var bcardIDBigNumber = await bcardContract.AddressToTokenID(currentAccount);
-  //       // let bCardID = parseInt(bcardIDBigNumber._hex, 16);
-  //       let nftTransfer = await nftContract[
-  //         "safeTransferFrom(address,address,uint256,uint256,bytes)"
-  //       ](currentAccount, sendTo, event.target.bcardID.value, num, "0x");
-  //     });
-  // };
+  const transferToENSHandler = async (event) => {
+    event.preventDefault();
+    polyConnection();
+    ensInfura.eth.ens
+      .getAddress(event.target.ens.value + ".eth")
+      .then(async function (address) {
+        const sendTo = address.toString();
+        const num = event.target.num.value;
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const signer = provider.getSigner();
+        const nftContract = new ethers.Contract(
+          "0xAEdc4773262c9036BDD3B0c9e4A53F39672A9f26",
+          abi,
+          signer
+        );
+        const accounts = await window.ethereum.request({
+          method: "eth_requestAccounts",
+        });
+        const currentAccount = accounts[0].toString();
+        let nftTransfer = await nftContract[
+          "safeTransferFrom(address,address,uint256,uint256,bytes)"
+        ](currentAccount, sendTo, event.target.bpaperID.value, num, "0x");
+      });
+  };
 
-  // const updateBCardHandler = async (event) => {
-  //   event.preventDefault();
-  //   polyConnection();
-  //   const bcardID = event.target.bcardID.value;
-  //   const ethName = event.target.ethName.value;
-  //   const nickName = event.target.nickName.value;
-  //   const provider = new ethers.providers.Web3Provider(window.ethereum);
-  //   const signer = provider.getSigner();
-  //   const nftContract = new ethers.Contract(
-  //     "0xc6Dd0F44910eC78DAEa928C4d855A1a854752964",
-  //     abi,
-  //     signer
-  //   );
-  //   let nftUpdate = await nftContract["updateEthName(uint256,string,string)"](
-  //     bcardID,
-  //     ethName,
-  //     nickName
-  //   );
-  // };
+  const previewHandler = async (event) => {
+    event.preventDefault();
+    polyConnection();
 
-  // const mintNewHandler = async (event) => {
-  //   event.preventDefault();
-  //   polyConnection();
-  //   const ethName = event.target.ethName.value;
-  //   const nickName = event.target.nickName.value;
-  //   const addressTo = event.target.address.value;
-  //   const provider = new ethers.providers.Web3Provider(window.ethereum);
-  //   const signer = provider.getSigner();
-  //   const nftContract = new ethers.Contract(
-  //     "0xc6Dd0F44910eC78DAEa928C4d855A1a854752964",
-  //     abi,
-  //     signer
-  //   );
-  //   let nftNew = await nftContract["mintNew(string,string,address)"](
-  //     ethName,
-  //     nickName,
-  //     addressTo
-  //   );
-  // };
+    const previewContract = new ethers.Contract(
+      "0x22C3685990147Af5BBB5d94370C71B4FAD96412C",
+      previewabi,
+      signer
+    );
 
-  // const addBcardHandler = async (event) => {
-  //   event.preventDefault();
-  //   polyConnection();
-  //   const bcardID = event.target.bcardID.value;
-  //   const num = event.target.num.value;
-  //   const addressTo = event.target.address.value;
-  //   const provider = new ethers.providers.Web3Provider(window.ethereum);
-  //   const signer = provider.getSigner();
+    let tempURL = await previewContract[
+      "master(string,string,string,uint256,string)"
+    ](
+      event.target.title.value,
+      event.target.category.value,
+      event.target.content.value,
+      event.target.bcardID.value,
+      event.target.ensName.value
+    );
+    const jsonURL = JSON.parse(atob(tempURL.substring(29)));
+    console.log(jsonURL.image);
+    setPreview(jsonURL.image);
+  };
 
-  //   // const testContract = new ethers.Contract("0x332E66C2A733ED9aB43342B8B34d1ECbC746Be33", abi, signer);
-  //   // let nftAdd = await testContract["mintAdd(address,uint256,uint256)"](addressTo, bcardID, num);
+  const updateHandler = async (event) => {
+    event.preventDefault();
+    polyConnection();
 
-  //   const nftContract = new ethers.Contract(
-  //     "0xc6Dd0F44910eC78DAEa928C4d855A1a854752964",
-  //     abi,
-  //     signer
-  //   );
-  //   let nftAdd = await nftContract["mintAdd(address,uint256,uint256)"](
-  //     addressTo,
-  //     bcardID,
-  //     num
-  //   );
-  // };
+    const makePaperContract = new ethers.Contract(
+      "0xAEdc4773262c9036BDD3B0c9e4A53F39672A9f26",
+      bpaperabi,
+      signer
+    );
+
+    let tempURL = await makePaperContract[
+      "updateContent(uint256,string,string,string)"
+    ](
+      event.target.bpaperID.value,
+      event.target.title.value,
+      event.target.category.value,
+      event.target.content.value
+    ).then(async function (address) {
+      setAmendMsg(
+        "You edited Bpaper Num." +
+          event.target.bpaperID.value +
+          ", take a look using the view function!"
+      );
+    });
+  };
+
+  const makeHandler = async (event) => {
+    event.preventDefault();
+    polyConnection();
+    const makePaperContract = new ethers.Contract(
+      "0xAEdc4773262c9036BDD3B0c9e4A53F39672A9f26",
+      bpaperabi,
+      signer
+    );
+
+    let tempBigNumber = await makePaperContract["totalSupply()"]();
+    let tempCount = parseInt(tempBigNumber._hex, 16) + 1;
+    let tempURL = await makePaperContract[
+      "mintNew(string,string,string,uint256,address)"
+    ](
+      event.target.title.value,
+      event.target.category.value,
+      event.target.content.value,
+      event.target.amount.value,
+      event.target.toAddress.value
+    ).then(async function (address) {
+      setMintMsg("You minted Bpaper Num." + tempCount + ", check it out!");
+    });
+  };
+
+  const addBpaperHandler = async (event) => {
+    event.preventDefault();
+    polyConnection();
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    const nftContract = new ethers.Contract(
+      "0xAEdc4773262c9036BDD3B0c9e4A53F39672A9f26",
+      abi,
+      signer
+    );
+    let nftAdd = await nftContract["mintAdd(address,uint256,uint256)"](
+      event.target.address.value,
+      event.target.bpaperID.value,
+      event.target.num.value
+    );
+  };
 
   useEffect(() => {
     initConnection();
@@ -237,8 +285,8 @@ export function Bpaper() {
   };
 
   return (
-    <div className="page">
-      <div className="header">
+    <div className="paperPage">
+      <div className="paperHeader">
         {boxIsOpen && (
           <Popup
             content={
@@ -265,72 +313,135 @@ export function Bpaper() {
       </div>
 
       <div className="viewBpaper">
+        <p>View Bpaper</p>
+      </div>
+
+      <div className="viewBpaper">
         <form onSubmit={viewBpaperHandler}>
           <label>Bpaper ID: </label>
           <input id="BpaperID" type="number" />
           <button type={"submit"}> View this Bpaper </button>
           <p></p>
           <img src={tempURL} className="" alt="" />
-          {/* <p>{numCardCollected}</p>
-          <p>{numCardToMint}</p> */}
-        </form>
-      </div>
-      {/* 
-      <div className="ENSToBcardID">
-        <form onSubmit={ENSToBcardIDHandler}>
-          <label>ENS: </label>
-          <input id="address" type="text" />
-          <label>.eth </label>
-          <button type={"submit"}> Get address & Bcard ID of this ENS </button>
-          <p>{addressOfENS}</p>
-          <p>{bcardIDofAddress}</p>
+          <p>{numCardOwned}</p>
         </form>
       </div>
 
-      <div className="transfer">
-        <form onSubmit={transferToENSHandler}>
-          <label>My Bcard ID: </label>
-          <input id="bcardID" type="number" />
-          <label> Recipient ENS: </label>
-          <input id="ens" type="text" />
-          <label>.eth;</label>
-          <label> Num of Bcards: </label>
+      <div className="paperTransferBcard">
+        <p> Send Bpaper to Bcard ID </p>
+      </div>
+
+      <div className="paperTransferBcard">
+        <form onSubmit={transferToBcardHandler}>
+          <label>Bpaper ID: </label>
+          <input id="bpaperID" type="number" />
+          <label> Recipient Bcard ID: </label>
+          <input id="toBcardID" type="number" />
+          <label> Num of Bpapers: </label>
           <input id="num" type="text" />
-          <button type={"submit"}> Send my Bcard</button>
+          <button type={"submit"}> Send this Bpaper</button>
           <p></p>
         </form>
       </div>
 
-      <div className="break">
-        <p></p>
-        <p>Bcard Update & Mint New</p>
-        <p></p>
+      <div className="paperTransferENS">
+        <p> Send Bpaper to ENS </p>
       </div>
 
-      <div className="updateBcard">
-        <form onSubmit={updateBCardHandler}>
-          <label>My Bcard ID: </label>
-          <input id="bcardID" type="number" />
-          <label> New ENS: </label>
-          <input id="ethName" type="text" />
-          <label>.eth; </label>
-          <label> New subtext: </label>
-          <input id="nickName" type="text" />
-          <button type={"submit"}>Update my Bcard info</button>
+      <div className="paperTransferENS">
+        <form onSubmit={transferToENSHandler}>
+          <label>Bpaper ID: </label>
+          <input id="bpaperID" type="number" />
+          <label> Recipient ENS: </label>
+          <input id="ens" type="text" />
+          <label>.eth;</label>
+          <label> Num of Bpapers: </label>
+          <input id="num" type="text" />
+          <button type={"submit"}> Send this Bpaper</button>
+          <p></p>
         </form>
       </div>
 
-      <div className="mintNewBcard">
-        <form onSubmit={mintNewHandler}>
-          <label>My ENS: </label>
-          <input id="ethName" type="text" />
-          <label> My subtext: </label>
-          <input id="nickName" type="text" />
+      <div className="previewBpaper">
+        <p>Preview Bpaper</p>
+      </div>
+
+      <div className="previewBpaper">
+        <form onSubmit={previewHandler}>
+          <label>title: </label>
+          <input id="title" type="text" />
+          <label>category: </label>
+          <input id="category" type="text" />
+          <label>content: </label>
+          <input id="content" type="text" />
+          <label>my Bcard ID: </label>
+          <input id="bcardID" type="text" />
+          <label>my ens name: </label>
+          <input id="ensName" type="text" />
+          <button type={"submit"}> Preview </button>
+          <p></p>
+          <img src={previewURL} className="" alt="" />
+        </form>
+      </div>
+
+      <div className="updateBpaper">
+        <p>Update Bpaper</p>
+      </div>
+
+      <div className="updateBpaper">
+        <form onSubmit={updateHandler}>
+          <label>Bpaper ID: </label>
+          <input id="bpaperID" type="text" />
+          <label>title: </label>
+          <input id="title" type="text" />
+          <label>category:</label>
+          <input id="category" type="text" />
+          <label>content:</label>
+          <input id="content" type="text" />
+          <button type={"submit"}> amend this Bpaper </button>
+          <p>{amendMsg}</p>
+        </form>
+      </div>
+
+      <div className="makeBpaper">
+        <p>Make Bpaper</p>
+      </div>
+
+      <div className="makeBpaper">
+        <form onSubmit={makeHandler}>
+          <label>title: </label>
+          <input id="title" type="text" />
+          <label>category: </label>
+          <input id="category" type="text" />
+          <label>content:</label>
+          <input id="content" type="text" />
+          <label>mint amount: </label>
+          <input id="amount" type="number" />
+          <label>mint to address: </label>
+          <input id="toAddress" type="text" />
+          <button type={"submit"}> mint this Bpaper </button>
+          <p>{mintMsg}</p>
+        </form>
+      </div>
+
+      <div className="addBpaper">
+        <p>Add Bpaper</p>
+      </div>
+
+      <div className="addBpaper">
+        <form onSubmit={addBpaperHandler}>
+          <label>My Bpaper ID: </label>
+          <input id="bpaperID" type="number" />
+          <label> Num of Bpapers: </label>
+          <input id="num" type="number" />
           <label> Mint to address: </label>
           <input id="address" type="text" />
-          <button type={"submit"}>Create new Bcard</button>
+          <button type={"submit"}>Add more Bpaper</button>
         </form>
       </div>
+
+      {/*
+      
 
       <div className="addBcard">
         <form onSubmit={addBcardHandler}>

@@ -14,6 +14,7 @@ export function Bcard() {
   const [tempURL, setURL] = useState(null);
   const [numCardCollected, setNumCardCollected] = useState(null);
   const [numCardToMint, setNumCardToMint] = useState(null);
+  const [numCardOwned, setNumCardOwned] = useState(null);
   const [bcardIDofAddress, setbcardIDofAddress] = useState(null);
   const [addressOfENS, setaddressOfENS] = useState(null);
   const polyAPI =
@@ -117,6 +118,18 @@ export function Bcard() {
     );
     let tempNumCardToMint2 = parseInt(tempNumCardToMint._hex, 16);
     setNumCardToMint("Num of new Bcards to mint: " + tempNumCardToMint2);
+    console.log(numCardToMint);
+
+    const accounts = await window.ethereum.request({
+      method: "eth_requestAccounts",
+    });
+    const currentAccount = accounts[0].toString();
+    const tempNumOwned = await bcardContract.balanceOf(
+      currentAccount,
+      event.target.BcardID.value
+    );
+    let tempNumOwned2 = parseInt(tempNumOwned._hex, 16);
+    setNumCardOwned("Num of this Bcard that you own: " + tempNumOwned2);
     console.log(numCardToMint);
   };
 
@@ -301,6 +314,7 @@ export function Bcard() {
           <img src={tempURL} className="" alt="" />
           <p>{numCardCollected}</p>
           <p>{numCardToMint}</p>
+          <p>{numCardOwned}</p>
         </form>
       </div>
 

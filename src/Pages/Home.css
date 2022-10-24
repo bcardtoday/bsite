@@ -6,7 +6,7 @@
   background-color: rgb(63, 108, 79);
 }
 
-.header {
+.mainHeader {
   min-height: 120px;
   display: flex;
   align-items: center;
@@ -14,5 +14,16 @@
   padding: 5px 20px;
   font-size: 16px;
   font-weight: bold;
-  background-color: rgb(247, 178, 129);
+  background-color: rgb(243, 170, 118);
+}
+
+.superSite {
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: rgb(172, 129, 97);
 }
