@@ -2,19 +2,28 @@
   height: 100%;
   width: 100%;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   background-color: rgb(63, 108, 79);
 }
 
 .mainHeader {
-  min-height: 120px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: rgb(221, 224, 173);
+}
+
+.twitter008 {
+  min-height: 40px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 5px 20px;
   font-size: 16px;
   font-weight: bold;
-  background-color: rgb(243, 170, 118);
+  background-color: rgb(174, 183, 141);
 }
 
 .superSite {
@@ -25,5 +34,5 @@
   padding: 5px 20px;
   font-size: 16px;
   font-weight: bold;
-  background-color: rgb(172, 129, 97);
+  background-color: rgb(114, 152, 196);
 }

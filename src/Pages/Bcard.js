@@ -336,7 +336,6 @@ export function Bcard() {
         <form onSubmit={viewBcardHandler}>
           <label>Bcard ID: </label>
           <input id="BcardID" type="number" />
-          {/* <button type={"submit"}> View this Bcard </button> */}
           <label>
             ; View data as other Bcard ID (leave blank to view as current
             address):{" "}

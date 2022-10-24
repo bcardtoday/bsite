@@ -121,13 +121,19 @@ export function Bpaper() {
     const accounts = await window.ethereum.request({
       method: "eth_requestAccounts",
     });
-    const currentAccount = accounts[0].toString();
+    var currentAccount = accounts[0].toString();
+    if (event.target.asBcardID.value != "") {
+      currentAccount = await bcardContract.getMinter(
+        event.target.asBcardID.value
+      );
+      console.log(currentAccount);
+    }
     const tempNumOwned = await bpaperContract.balanceOf(
       currentAccount,
       event.target.BpaperID.value
     );
     let tempNumOwned2 = parseInt(tempNumOwned._hex, 16);
-    setNumCardOwned("Num of this Bcard that you own: " + tempNumOwned2);
+    setNumCardOwned("Num of this Bpaper that you own: " + tempNumOwned2);
   };
 
   const transferToBcardHandler = async (event) => {
@@ -320,7 +326,12 @@ export function Bpaper() {
         <form onSubmit={viewBpaperHandler}>
           <label>Bpaper ID: </label>
           <input id="BpaperID" type="number" />
-          <button type={"submit"}> View this Bpaper </button>
+          <label>
+            ; View data as other Bcard ID (leave blank to view as current
+            address):{" "}
+          </label>
+          <input id="asBcardID" type="number" />
+          <button type={"submit"}> View as Bcard ID </button>
           <p></p>
           <img src={tempURL} className="" alt="" />
           <p>{numCardOwned}</p>

@@ -4,9 +4,26 @@ export function Home() {
   return (
     <div className="page">
       <div className="mainHeader">
+        <p>*--------------------------Welcome!--------------------------*</p>
+        <p>This is the home of Bcards.</p>
         <p>
-          This is the home of Bcards. The Bcards are living on the polygon block
-          chain at address: 0xc6Dd0F44910eC78DAEa928C4d855A1a854752964.{" "}
+          The Bcards are living on the polygon block chain at address:
+          0xc6Dd0F44910eC78DAEa928C4d855A1a854752964.
+        </p>
+        <p>
+          It has a twitter account{" "}
+          <a href="https://mobile.twitter.com/Bcard_eth" rel="noreferrer">
+            twitter.com/Bcard_eth.
+          </a>{" "}
+        </p>
+        <p>*------------------------------------------------------------*</p>
+      </div>
+      <div className="twitter008">
+        <p>
+          The founder 008.eth gives constant update on his twitter{" "}
+          <a href="https://mobile.twitter.com/008_eth" rel="noreferrer">
+            twitter.com/008_eth.
+          </a>{" "}
         </p>
       </div>
       <div className="superSite">
