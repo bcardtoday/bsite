@@ -15,6 +15,8 @@ export function Bcard() {
   const [numCardCollected, setNumCardCollected] = useState(null);
   const [numCardToMint, setNumCardToMint] = useState(null);
   const [numCardOwned, setNumCardOwned] = useState(null);
+  const [numCardyou, setNumCardyou] = useState(null);
+  const [minterAddr, setMinterAddr] = useState(null);
   const [bcardIDofAddress, setbcardIDofAddress] = useState(null);
   const [addressOfENS, setaddressOfENS] = useState(null);
   const polyAPI =
@@ -118,19 +120,44 @@ export function Bcard() {
     );
     let tempNumCardToMint2 = parseInt(tempNumCardToMint._hex, 16);
     setNumCardToMint("Num of new Bcards to mint: " + tempNumCardToMint2);
-    console.log(numCardToMint);
 
     const accounts = await window.ethereum.request({
       method: "eth_requestAccounts",
     });
-    const currentAccount = accounts[0].toString();
+    var currentAccount = accounts[0].toString();
+    if (event.target.asBcardID.value != "") {
+      currentAccount = await bcardContract.getMinter(
+        event.target.asBcardID.value
+      );
+      console.log(currentAccount);
+    }
     const tempNumOwned = await bcardContract.balanceOf(
       currentAccount,
       event.target.BcardID.value
     );
     let tempNumOwned2 = parseInt(tempNumOwned._hex, 16);
     setNumCardOwned("Num of this Bcard that you own: " + tempNumOwned2);
-    console.log(numCardToMint);
+
+    //how many your cards he has
+    var bcardIDBigNumber = await bcardContract.AddressToTokenID(currentAccount);
+    let myCardID = parseInt(bcardIDBigNumber._hex, 16);
+    if (myCardID == 0) {
+      setNumCardyou("Can't find a Bcard ID of your connected address");
+    } else {
+      var hisAddr = await bcardContract.getMinter(event.target.BcardID.value);
+      setMinterAddr(
+        "Bcard ID " + event.target.BcardID.value + "'s address: " + hisAddr
+      );
+      let tempHisBalance = await bcardContract.balanceOf(hisAddr, myCardID);
+      let tempHisBalance2 = parseInt(tempHisBalance._hex, 16);
+      console.log(tempHisBalance2);
+      setNumCardyou(
+        "Bcard ID " +
+          event.target.BcardID.value +
+          " has num of your cards: " +
+          tempHisBalance2
+      );
+    }
   };
 
   const ENSToBcardIDHandler = async (event) => {
@@ -309,12 +336,20 @@ export function Bcard() {
         <form onSubmit={viewBcardHandler}>
           <label>Bcard ID: </label>
           <input id="BcardID" type="number" />
-          <button type={"submit"}> View this Bcard </button>
+          {/* <button type={"submit"}> View this Bcard </button> */}
+          <label>
+            ; View data as other Bcard ID (leave blank to view as current
+            address):{" "}
+          </label>
+          <input id="asBcardID" type="number" />
+          <button type={"submit"}> View as Bcard ID </button>
           <p></p>
           <img src={tempURL} className="" alt="" />
           <p>{numCardCollected}</p>
           <p>{numCardToMint}</p>
+          <p>{minterAddr}</p>
           <p>{numCardOwned}</p>
+          <p>{numCardyou}</p>
         </form>
       </div>
 
