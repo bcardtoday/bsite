@@ -1,4 +1,5 @@
 import "./Home.css";
+import { GetPastEvents } from "../components/pastEvents.js";
 
 export function Home() {
   return (
@@ -20,7 +21,7 @@ export function Home() {
       </div>
       <div className="twitter008">
         <p>
-          The founder 008.eth gives constant update on his twitter{" "}
+          The founder 008.eth gives constant updates on his twitter{" "}
           <a href="https://mobile.twitter.com/008_eth" rel="noreferrer">
             twitter.com/008_eth.
           </a>{" "}
@@ -32,9 +33,13 @@ export function Home() {
           <a href="https://bcard.super.site/" rel="noreferrer">
             bcard.super.site/
           </a>{" "}
-          for detailed instruction and information on the B ecosystem. Nicely
+          for detailed instructions and information on the B ecosystem. Nicely
           done by Bcard ID 33: 5459.eth{" "}
         </p>
+      </div>
+
+      <div className="">
+        <GetPastEvents></GetPastEvents>
       </div>
     </div>
   );
