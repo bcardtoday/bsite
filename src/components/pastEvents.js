@@ -114,7 +114,7 @@ export function GetPastEvents() {
     provider.getBlockNumber().then(async function (blockNumber) {
       const filter = bcardContract.filters.TransferSingle(null, null, null);
       var data = await bcardContract
-        .queryFilter(filter, blockNumber - 5000, blockNumber)
+        .queryFilter(filter, blockNumber - 10000, blockNumber)
         .then(async function (data) {
           console.log(data[0].args[3]);
           for (let i = 1; i <= 10; i++) {
