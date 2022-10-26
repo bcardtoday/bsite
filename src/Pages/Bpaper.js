@@ -18,8 +18,7 @@ export function Bpaper() {
   const [previewURL, setPreview] = useState(null);
   const [mintMsg, setMintMsg] = useState(null);
   const [amendMsg, setAmendMsg] = useState(null);
-  const [bcardIDofAddress, setbcardIDofAddress] = useState(null);
-  const [addressOfENS, setaddressOfENS] = useState(null);
+  const [paperLogs, setPaperLogs] = useState([]);
   const polyAPI =
     "https://polygon-mainnet.infura.io/v3/f323f21ff16a408da14744c8046a3572";
   const ethAPI =
@@ -46,24 +45,6 @@ export function Bpaper() {
 
   const Web3 = require("web3");
   const ensInfura = new Web3(new Web3.providers.HttpProvider(ethAPI));
-
-  const balance = async (nft) => {
-    const contract = new ethers.Contract(nft.address, abi, provider);
-    const tempBalance = await contract.balanceOf(account, nft.id);
-    const tempNfts = [...nfts.list];
-    const tempNft = tempNfts[tempNfts.findIndex((obj) => obj.id === nft.id)];
-    tempNft.owner = tempBalance > 0;
-    tempNft.count = tempBalance.toString();
-    setNfts({
-      list: tempNfts,
-    });
-  };
-
-  const checkCollection = () => {
-    data.list.forEach((nft) => {
-      balance(nft);
-    });
-  };
 
   const polyConnection = async () => {
     const chainId = await window.ethereum.request({ method: "eth_chainId" });
@@ -126,7 +107,6 @@ export function Bpaper() {
       currentAccount = await bcardContract.getMinter(
         event.target.asBcardID.value
       );
-      console.log(currentAccount);
     }
     const tempNumOwned = await bpaperContract.balanceOf(
       currentAccount,
@@ -207,7 +187,6 @@ export function Bpaper() {
       event.target.ensName.value
     );
     const jsonURL = JSON.parse(atob(tempURL.substring(29)));
-    console.log(jsonURL.image);
     setPreview(jsonURL.image);
   };
 
@@ -282,10 +261,6 @@ export function Bpaper() {
     initConnection();
   }, []);
 
-  useEffect(() => {
-    checkCollection();
-  }, [account]);
-
   const togglePopup = () => {
     setBoxOpen(!boxIsOpen);
   };
@@ -308,9 +283,9 @@ export function Bpaper() {
           alt="Logo"
           className="BpaperLogo"
         />
-        <p>Bpaper Gallery</p>
+        <p>Bpaper</p>
         {account === "" ? (
-          <button onClick={initConnection} className="button">
+          <button onClick={initConnection} className="connectButtonBpaper">
             Connect
           </button>
         ) : (
@@ -450,49 +425,6 @@ export function Bpaper() {
           <button type={"submit"}>Add more Bpaper</button>
         </form>
       </div>
-
-      {/*
-      
-
-      <div className="addBcard">
-        <form onSubmit={addBcardHandler}>
-          <label>My Bcard ID: </label>
-          <input id="bcardID" type="number" />
-          <label> Num of Bcards: </label>
-          <input id="num" type="number" />
-          <label> Mint to address: </label>
-          <input id="address" type="text" />
-          <button type={"submit"}>Add more Bcard</button>
-        </form>
-      </div> */}
-
-      {/* <div className="main">
-        {nfts.list.map((nft,index) =>{
-          return(
-            <div key={index} className="card">
-              <div style={{position: "relative"}}>
-                <a target={"_blank"} rel="noreferrer" href={`http://opensea.io/assets/matic/0xc6dd0f44910ec78daea928c4d855a1a854752964/${nft.id}`}>
-                  <img
-                    src={require(`./assets/images/opensea.png`)}
-                    className="cardImage" alt=""
-                  />
-                </a>
-                <GiCandyCanes 
-                  className="cardImage"
-                  style={{opacity:nft.owner? 1:0.2}}
-                />
-                <p className="counter">{nft.count}</p>
-              </div>
-              <img 
-                src={require(`./assets/images/${nft.id}.${nft.type}`)} 
-                className="nftImage" alt=""
-                style={{opacity:nft.owner? 1:0.2}}
-              />
-              <p className="nftText">{nft.name}</p>
-            </div>
-          )
-        })}
-      </div> */}
     </div>
   );
 }

@@ -85,10 +85,8 @@ export function GetPastEvents() {
       .then(async function (bcardIDBigNumber) {
         let bCardID = parseInt(bcardIDBigNumber._hex, 16);
         if (bCardID != 0) {
-          console.log(bCardID);
           return bCardID;
         } else {
-          console.log("non Bcard Holder");
           return "non Bcard Holder";
         }
       });
@@ -102,7 +100,7 @@ export function GetPastEvents() {
 
   const pastEvents = async () => {
     clearState();
-    setEventLogs(["Last 10 Bcard transfers:"]);
+    setEventLogs(["Latest Bcard transfers:"]);
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
     const bcardContract = new ethers.Contract(
@@ -116,44 +114,49 @@ export function GetPastEvents() {
       var data = await bcardContract
         .queryFilter(filter, blockNumber - 10000, blockNumber)
         .then(async function (data) {
-          console.log(data[0].args[3]);
+          console.log(data);
           for (let i = 1; i <= 10; i++) {
-            const tempTimeStamp = (
-              await provider.getBlock(data[data.length - i].blockNumber)
-            ).timestamp;
-            var formattedLapsed = findTimeLapsed(tempTimeStamp);
-            var idFrom = await bcardContract.AddressToTokenID(
-              data[data.length - i].args[1]
-            );
-            var idFrom2 = parseInt(idFrom._hex, 16);
-            var idTo = await bcardContract.AddressToTokenID(
-              data[data.length - i].args[2]
-            );
-            var sentBcardID = parseInt(data[data.length - i].args[3]._hex, 16);
-            var idTo2 = parseInt(idTo._hex, 16);
-            // let transferInfor =
-            //   "Bcard ID " +
-            //   sentBcardID +
-            //   " was sent from Bcard ID " +
-            //   idFrom2 +
-            //   " (address " +
-            //   data[data.length - i].args[1] +
-            //   ") to Bcard ID " +
-            //   idTo2 +
-            //   " (address " +
-            //   data[data.length - i].args[2] +
-            //   ") at " +
-            //   formattedLapsed;
+            if (i <= data.length) {
+              const tempTimeStamp = (
+                await provider.getBlock(data[data.length - i].blockNumber)
+              ).timestamp;
+              var formattedLapsed = findTimeLapsed(tempTimeStamp);
+              var idFrom = await bcardContract.AddressToTokenID(
+                data[data.length - i].args[1]
+              );
+              var idFrom2 = parseInt(idFrom._hex, 16);
+              var idTo = await bcardContract.AddressToTokenID(
+                data[data.length - i].args[2]
+              );
+              var sentBcardID = parseInt(
+                data[data.length - i].args[3]._hex,
+                16
+              );
+              var idTo2 = parseInt(idTo._hex, 16);
+              // let transferInfor =
+              //   "Bcard ID " +
+              //   sentBcardID +
+              //   " was sent from Bcard ID " +
+              //   idFrom2 +
+              //   " (address " +
+              //   data[data.length - i].args[1] +
+              //   ") to Bcard ID " +
+              //   idTo2 +
+              //   " (address " +
+              //   data[data.length - i].args[2] +
+              //   ") at " +
+              //   formattedLapsed;
 
-            let transferInfor =
-              "ID " +
-              sentBcardID +
-              " sent to ID " +
-              idTo2 +
-              " at " +
-              formattedLapsed;
+              let transferInfor =
+                "ID " +
+                sentBcardID +
+                " sent to ID " +
+                idTo2 +
+                " at " +
+                formattedLapsed;
 
-            setEventLogs((oldArray) => [...oldArray, transferInfor]);
+              setEventLogs((oldArray) => [...oldArray, transferInfor]);
+            }
           }
         });
     });

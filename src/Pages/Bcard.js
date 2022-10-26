@@ -324,7 +324,7 @@ export function Bcard() {
         />
         <p>Bcard Transfer</p>
         {account === "" ? (
-          <button onClick={initConnection} className="button">
+          <button onClick={initConnection} className="buttonConnectBcard">
             Connect
           </button>
         ) : (

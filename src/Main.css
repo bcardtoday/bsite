@@ -4,18 +4,34 @@
 }
 
 .direction {
+  color: rgb(0, 0, 0);
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  padding: 5px 20px;
-  font-size: 16px;
+  align-items: center;
+  gap: 2rem;
+  padding: 0 1rem;
   font-weight: bold;
-  background-color: rgb(105, 134, 144);
+  background-color: rgb(131, 157, 166);
+}
+
+.direction ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+}
+
+.direction li.active {
+  background-color: rgb(200, 214, 229);
+}
+
+.site-title {
+  font-size: 2rem;
 }
 
 body {
   margin: 0;
-  font-family: Monaco, Consolas, "Courier New", monospace;
   background-color: rgb(89, 112, 136);
   color: black;
 }

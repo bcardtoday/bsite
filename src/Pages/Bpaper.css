@@ -12,9 +12,9 @@
   align-items: center;
   justify-content: space-between;
   padding: 5px 20px;
-  font-size: 16px;
+  font-size: 22px;
   font-weight: bold;
-  background-color: rgb(202, 179, 129);
+  background-color: rgb(202, 171, 103);
 }
 
 .break {
@@ -91,12 +91,22 @@
   background-color: rgb(96, 113, 97);
 }
 
-.button {
+.latestBpaper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 20px;
+  font-size: 16px;
+  overflow: scroll;
+  background-color: rgb(39, 62, 41);
+}
+
+.connectButtonBpaper {
   border: none;
   border-radius: 50px;
   padding: 3px 9px;
   cursor: pointer;
-  background-color: rgb(14, 28, 49);
+  background-color: rgb(176, 196, 158);
 }
 
 .BpaperLogo {
