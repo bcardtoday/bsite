@@ -9,7 +9,6 @@ import { Home } from "./Pages/Home";
 import { Bpaper } from "./Pages/Bpaper";
 import { BpaperGallery } from "./Pages/BpaperGallery";
 import { Bcard } from "./Pages/Bcard";
-import { ChatApp } from "./Pages/Chat";
 import "./Main.css";
 
 function Main() {
