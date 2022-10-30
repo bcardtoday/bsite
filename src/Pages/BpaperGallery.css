@@ -125,6 +125,7 @@
 }
 
 .BpaperReaderImage {
+  display: flex;
   height: 600px;
   border-radius: 5px;
 }

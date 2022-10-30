@@ -1,0 +1,54 @@
+.settingPage {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(14, 28, 49);
+}
+
+.settingHeader {
+  min-height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 20px;
+  font-size: 22px;
+  font-weight: bold;
+  background-color: rgb(41, 67, 133);
+  color: rgb(255, 255, 255);
+}
+
+.settingExplain {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 20px;
+  font-size: 18px;
+  background-color: rgb(94, 101, 145);
+  color: rgb(255, 255, 255);
+}
+
+.viewDelegate {
+  justify-content: space-between;
+  gap: 30px;
+  padding: 10px;
+  background-color: rgb(217, 207, 226);
+}
+
+.submitDelegate {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 20px;
+  font-size: 16px;
+  background-color: rgb(255, 255, 221);
+}
+
+.confirmDelegate {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 20px;
+  font-size: 16px;
+  background-color: rgb(247, 155, 99);
+}

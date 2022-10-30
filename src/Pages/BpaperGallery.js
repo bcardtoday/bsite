@@ -125,21 +125,21 @@ export function BpaperGallery() {
       abi,
       provider
     );
-    for (let i = 0; i < 50; i++) {
-      let bpaperSupply = await nftContract
-        .totalSupply()
-        .then(async function (bpaperSupply) {
-          var bpaperSupplyNum = parseInt(bpaperSupply._hex, 16);
+
+    let bpaperSupply = await nftContract
+      .totalSupply()
+      .then(async function (bpaperSupply) {
+        var bpaperSupplyNum = parseInt(bpaperSupply._hex, 16);
+        for (let i = 0; i < bpaperSupplyNum; i++) {
           const tempURL = await nftContract
             .uri(bpaperSupplyNum - i)
             .then(async function (tempURL) {
               const jsonURL = JSON.parse(atob(tempURL.substring(29)));
               setPaperLogs((oldArray) => [...oldArray, { src: jsonURL.image }]);
             });
-        });
-    }
-
-    console.log(paperLogs);
+        }
+        console.log(paperLogs.length);
+      });
   };
 
   const bpaperDisplay = () => {

@@ -9,6 +9,7 @@ import { Home } from "./Pages/Home";
 import { Bpaper } from "./Pages/Bpaper";
 import { BpaperGallery } from "./Pages/BpaperGallery";
 import { Bcard } from "./Pages/Bcard";
+import { Setting } from "./Pages/Setting";
 import "./Main.css";
 
 function Main() {
@@ -16,21 +17,21 @@ function Main() {
     <>
       <nav className="direction">
         <Link
-          to="/"
+          to="/home"
           className="site-title"
           style={{ color: "inherit", textDecoration: "inherit" }}
         >
           Bsite
         </Link>
         <ul>
-          <li>
+          {/* <li>
             <CustomLink
               to="/home"
               style={{ color: "inherit", textDecoration: "inherit" }}
             >
               Home
             </CustomLink>
-          </li>
+          </li> */}
           <li>
             <CustomLink
               to="/"
@@ -52,7 +53,15 @@ function Main() {
               to="/bpapergallery"
               style={{ color: "inherit", textDecoration: "inherit" }}
             >
-              Latest Bpapers
+              Feed
+            </CustomLink>
+          </li>
+          <li>
+            <CustomLink
+              to="/settings"
+              style={{ color: "inherit", textDecoration: "inherit" }}
+            >
+              Admin
             </CustomLink>
           </li>
           {/* <li>
@@ -64,7 +73,8 @@ function Main() {
         <Route path="/home" element={<Home />} />
         <Route path="/bpaper" element={<Bpaper />} />
         <Route path="/bpapergallery" element={<BpaperGallery />} />
-        <Route path="/" element={<Bcard />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/settings" element={<Setting />} />
         {/* <Route path="/bchat" element={<ChatApp />} /> */}
       </Routes>
     </>

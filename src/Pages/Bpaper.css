@@ -64,6 +64,11 @@
   background-color: rgb(161, 173, 159);
 }
 
+.BpaperImage {
+  /* height: 600px; */
+  border-radius: 5px;
+}
+
 .updateBpaper {
   display: flex;
   align-items: center;
@@ -122,11 +127,6 @@
   flex: 1;
   padding: 10px;
   padding-top: 15px;
-}
-
-.nftImage {
-  height: 150px;
-  border-radius: 5px;
 }
 
 .nftText {

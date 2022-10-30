@@ -100,7 +100,7 @@ export function GetPastEvents() {
 
   const pastEvents = async () => {
     clearState();
-    setEventLogs(["Latest Bcard transfers:"]);
+    setEventLogs([]);
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
     const bcardContract = new ethers.Contract(
@@ -173,7 +173,8 @@ export function GetPastEvents() {
 
   return (
     <div>
-      <div className="tranferHeader">
+      <div className="pastEventsHeader">
+        <p> View latest Bcard transfers: </p>
         {boxIsOpen && (
           <Popup
             content={

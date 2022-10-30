@@ -1,0 +1,262 @@
+[
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "previousOwner",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "newOwner",
+        "type": "address"
+      }
+    ],
+    "name": "OwnershipTransferred",
+    "type": "event"
+  },
+  {
+    "inputs": [],
+    "name": "BcardContractAddr",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "adminAddr",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "name": "cards",
+    "outputs": [
+      { "internalType": "address", "name": "minter", "type": "address" },
+      { "internalType": "address", "name": "delegate1", "type": "address" },
+      { "internalType": "address", "name": "delegate2", "type": "address" },
+      { "internalType": "address", "name": "delegate3", "type": "address" },
+      { "internalType": "address", "name": "delegate4", "type": "address" },
+      { "internalType": "address", "name": "delegate5", "type": "address" },
+      {
+        "internalType": "address",
+        "name": "delegate1Submitted",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "delegate2Submitted",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "delegate3Submitted",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "delegate4Submitted",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "delegate5Submitted",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_BcardID", "type": "uint256" }
+    ],
+    "name": "confirmDelegate1",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_BcardID", "type": "uint256" }
+    ],
+    "name": "confirmDelegate2",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_BcardID", "type": "uint256" }
+    ],
+    "name": "confirmDelegate3",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_BcardID", "type": "uint256" }
+    ],
+    "name": "confirmDelegate4",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_BcardID", "type": "uint256" }
+    ],
+    "name": "confirmDelegate5",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "name": "delegateAddrToBcardID",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_BcardID", "type": "uint256" }
+    ],
+    "name": "getDelegate1",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_BcardID", "type": "uint256" }
+    ],
+    "name": "getDelegate2",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_BcardID", "type": "uint256" }
+    ],
+    "name": "getDelegate3",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_BcardID", "type": "uint256" }
+    ],
+    "name": "getDelegate4",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_BcardID", "type": "uint256" }
+    ],
+    "name": "getDelegate5",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_Addr", "type": "address" }
+    ],
+    "name": "mapDelegateAddrToBcardID",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "owner",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "renounceOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_Add", "type": "address" }
+    ],
+    "name": "setBcardContract",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "newOwner", "type": "address" }
+    ],
+    "name": "transferOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_BcardID", "type": "uint256" },
+      { "internalType": "address", "name": "_DelegateAdd", "type": "address" }
+    ],
+    "name": "updateDelegate1",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_BcardID", "type": "uint256" },
+      { "internalType": "address", "name": "_DelegateAdd", "type": "address" }
+    ],
+    "name": "updateDelegate2",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_BcardID", "type": "uint256" },
+      { "internalType": "address", "name": "_DelegateAdd", "type": "address" }
+    ],
+    "name": "updateDelegate3",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_BcardID", "type": "uint256" },
+      { "internalType": "address", "name": "_DelegateAdd", "type": "address" }
+    ],
+    "name": "updateDelegate4",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_BcardID", "type": "uint256" },
+      { "internalType": "address", "name": "_DelegateAdd", "type": "address" }
+    ],
+    "name": "updateDelegate5",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  }
+]

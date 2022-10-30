@@ -2,6 +2,7 @@ import "./Bcard.css";
 import { ethers } from "ethers";
 import { useState, useEffect } from "react";
 import abi from ".././abi/abi.json";
+import checkQuaAbi from ".././abi/checkQuaAbi.json";
 import data from ".././data/data.json";
 import Popup from ".././components/popup";
 
@@ -13,8 +14,8 @@ export function Bcard() {
   const [nfts, setNfts] = useState(data);
   const [tempURL, setURL] = useState(null);
   const [numCardCollected, setNumCardCollected] = useState(null);
-  const [numCardToMint, setNumCardToMint] = useState(null);
   const [numCardOwned, setNumCardOwned] = useState(null);
+  const [numCardToMint, setNumCardToMint] = useState(null);
   const [numCardyou, setNumCardyou] = useState(null);
   const [minterAddr, setMinterAddr] = useState(null);
   const [bcardIDofAddress, setbcardIDofAddress] = useState(null);
@@ -29,6 +30,8 @@ export function Bcard() {
     process.env.polyAPI
   );
   let web3UserPoly = null;
+  const checkQuaContractAddr = "0x9aC83204F3256801dFB30064D4F2EB4A00912EeC";
+  const BcardContractAddr = "0xc6Dd0F44910eC78DAEa928C4d855A1a854752964";
 
   //set networks
   const bcardContract = new ethers.Contract(
@@ -236,16 +239,30 @@ export function Bcard() {
     const nickName = event.target.nickName.value;
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
-    const nftContract = new ethers.Contract(
-      "0xc6Dd0F44910eC78DAEa928C4d855A1a854752964",
-      abi,
-      signer
-    );
-    let nftUpdate = await nftContract["updateEthName(uint256,string,string)"](
-      bcardID,
-      ethName,
-      nickName
-    );
+    //see if this is minter
+    const accounts = await window.ethereum.request({
+      method: "eth_requestAccounts",
+    });
+    const currentAccount = accounts[0].toString();
+    var BcardContract = new ethers.Contract(BcardContractAddr, abi, provider);
+    var minterAddr = await BcardContract.getMinter(bcardID);
+    if (minterAddr == currentAccount) {
+      var amendContract = new ethers.Contract(BcardContractAddr, abi, signer);
+      let nftUpdate = await amendContract[
+        "updateEthName(uint256,string,string)"
+      ](bcardID, ethName, nickName);
+    } else {
+      var amendContract = new ethers.Contract(
+        checkQuaContractAddr,
+        checkQuaAbi,
+        signer
+      );
+      let nftUpdate = await amendContract["checkAmend(uint256,string,string)"](
+        bcardID,
+        ethName,
+        nickName
+      );
+    }
   };
 
   const mintNewHandler = async (event) => {

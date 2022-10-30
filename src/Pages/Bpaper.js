@@ -2,6 +2,7 @@ import "./Bpaper.css";
 import { ethers } from "ethers";
 import { useState, useEffect } from "react";
 import abi from ".././abi/abi.json";
+import bpaperCheckQuaAbi from ".././abi/bpaperCheckQuaAbi.json";
 import previewabi from ".././abi/preview.json";
 import bpaperabi from ".././abi/bpaperabi.json";
 import data from ".././data/data.json";
@@ -31,6 +32,9 @@ export function Bpaper() {
   let web3UserPoly = null;
 
   //set networks
+  const bpaperContractAddr = "0xAEdc4773262c9036BDD3B0c9e4A53F39672A9f26";
+  const bcardContractAddr = "0xc6Dd0F44910eC78DAEa928C4d855A1a854752964";
+  const bpaperCheckQuaAddr = "0x27826B530111cBB3215AAaaDf3731f26d1A73165";
   const bpaperContract = new ethers.Contract(
     "0xAEdc4773262c9036BDD3B0c9e4A53F39672A9f26",
     abi,
@@ -193,27 +197,60 @@ export function Bpaper() {
   const updateHandler = async (event) => {
     event.preventDefault();
     polyConnection();
-
-    const makePaperContract = new ethers.Contract(
-      "0xAEdc4773262c9036BDD3B0c9e4A53F39672A9f26",
-      bpaperabi,
-      signer
-    );
-
-    let tempURL = await makePaperContract[
-      "updateContent(uint256,string,string,string)"
-    ](
-      event.target.bpaperID.value,
-      event.target.title.value,
-      event.target.category.value,
-      event.target.content.value
-    ).then(async function (address) {
-      setAmendMsg(
-        "You edited Bpaper Num." +
-          event.target.bpaperID.value +
-          ", take a look using the view function!"
-      );
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    //see if this is minter
+    const accounts = await window.ethereum.request({
+      method: "eth_requestAccounts",
     });
+    const currentAccount = accounts[0].toString();
+    var BpaperContract = new ethers.Contract(bpaperContractAddr, abi, provider);
+    var minterAddr = await BpaperContract.getMinter(
+      event.target.bpaperID.value
+    );
+    if (minterAddr == currentAccount) {
+      const makePaperContract = new ethers.Contract(
+        "0xAEdc4773262c9036BDD3B0c9e4A53F39672A9f26",
+        bpaperabi,
+        signer
+      );
+
+      let tempURL = await makePaperContract[
+        "updateContent(uint256,string,string,string)"
+      ](
+        event.target.bpaperID.value,
+        event.target.title.value,
+        event.target.category.value,
+        event.target.content.value
+      ).then(async function (address) {
+        setAmendMsg(
+          "You edited Bpaper ID." +
+            event.target.bpaperID.value +
+            ", take a look using the view function!"
+        );
+      });
+    } else {
+      const makePaperContract = new ethers.Contract(
+        bpaperCheckQuaAddr,
+        bpaperCheckQuaAbi,
+        signer
+      );
+
+      let tempURL = await makePaperContract[
+        "checkAmend(uint256,string,string,string)"
+      ](
+        event.target.bpaperID.value,
+        event.target.title.value,
+        event.target.category.value,
+        event.target.content.value
+      ).then(async function (address) {
+        setAmendMsg(
+          "You edited Bpaper ID." +
+            event.target.bpaperID.value +
+            ", take a look using the view function!"
+        );
+      });
+    }
   };
 
   const makeHandler = async (event) => {
@@ -308,7 +345,7 @@ export function Bpaper() {
           <input id="asBcardID" type="number" />
           <button type={"submit"}> View as Bcard ID </button>
           <p></p>
-          <img src={tempURL} className="" alt="" />
+          <img src={tempURL} className="BpaperImage" alt="" />
           <p>{numCardOwned}</p>
         </form>
       </div>
