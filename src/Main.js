@@ -10,6 +10,7 @@ import { Bpaper } from "./Pages/Bpaper";
 import { BpaperGallery } from "./Pages/BpaperGallery";
 import { Bcard } from "./Pages/Bcard";
 import { Setting } from "./Pages/Setting";
+import { Stats } from "./Pages/Stats";
 import "./Main.css";
 
 function Main() {
@@ -17,7 +18,7 @@ function Main() {
     <>
       <nav className="direction">
         <Link
-          to="/home"
+          to="/bsite"
           className="site-title"
           style={{ color: "inherit", textDecoration: "inherit" }}
         >
@@ -50,7 +51,7 @@ function Main() {
           </li>
           <li>
             <CustomLink
-              to="/bpapergallery"
+              to="/feed"
               style={{ color: "inherit", textDecoration: "inherit" }}
             >
               Feed
@@ -58,7 +59,15 @@ function Main() {
           </li>
           <li>
             <CustomLink
-              to="/settings"
+              to="/ranking"
+              style={{ color: "inherit", textDecoration: "inherit" }}
+            >
+              Ranking
+            </CustomLink>
+          </li>
+          <li>
+            <CustomLink
+              to="/admin"
               style={{ color: "inherit", textDecoration: "inherit" }}
             >
               Admin
@@ -70,12 +79,13 @@ function Main() {
         </ul>
       </nav>
       <Routes>
-        <Route path="/home" element={<Home />} />
+        <Route path="/bsite" element={<Home />} />
         <Route path="/bpaper" element={<Bpaper />} />
         <Route path="/bcard" element={<Bcard />} />
-        <Route path="/bpapergallery" element={<BpaperGallery />} />
-        <Route path="/" element={<Home />} />
-        <Route path="/settings" element={<Setting />} />
+        <Route path="/feed" element={<BpaperGallery />} />
+        <Route path="/ranking" element={<Stats />} />
+        <Route path="/" element={<Bcard />} />
+        <Route path="/admin" element={<Setting />} />
         {/* <Route path="/bchat" element={<ChatApp />} /> */}
       </Routes>
     </>

@@ -1,6 +1,5 @@
 import "./Home.css";
 import { GetPastEvents } from "../components/pastEvents.js";
-import { Ranking } from "../components/Ranking.js";
 
 export function Home() {
   return (
@@ -41,10 +40,6 @@ export function Home() {
 
       <div className="">
         <GetPastEvents></GetPastEvents>
-      </div>
-
-      <div className="">
-        <Ranking></Ranking>
       </div>
     </div>
   );
