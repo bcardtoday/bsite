@@ -59,10 +59,10 @@ function Main() {
           </li>
           <li>
             <CustomLink
-              to="/ranking"
+              to="/rank"
               style={{ color: "inherit", textDecoration: "inherit" }}
             >
-              Ranking
+              Rank
             </CustomLink>
           </li>
           <li>
@@ -83,7 +83,7 @@ function Main() {
         <Route path="/bpaper" element={<Bpaper />} />
         <Route path="/bcard" element={<Bcard />} />
         <Route path="/feed" element={<BpaperGallery />} />
-        <Route path="/ranking" element={<Stats />} />
+        <Route path="/rank" element={<Stats />} />
         <Route path="/" element={<Bcard />} />
         <Route path="/admin" element={<Setting />} />
         {/* <Route path="/bchat" element={<ChatApp />} /> */}
