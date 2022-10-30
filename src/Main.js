@@ -34,7 +34,7 @@ function Main() {
           </li> */}
           <li>
             <CustomLink
-              to="/"
+              to="/bcard"
               style={{ color: "inherit", textDecoration: "inherit" }}
             >
               Bcard
@@ -72,6 +72,7 @@ function Main() {
       <Routes>
         <Route path="/home" element={<Home />} />
         <Route path="/bpaper" element={<Bpaper />} />
+        <Route path="/bcard" element={<Bcard />} />
         <Route path="/bpapergallery" element={<BpaperGallery />} />
         <Route path="/" element={<Home />} />
         <Route path="/settings" element={<Setting />} />
