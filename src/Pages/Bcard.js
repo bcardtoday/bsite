@@ -425,9 +425,9 @@ export function Bcard() {
         <form onSubmit={updateBCardHandler}>
           <label>My Bcard ID: </label>
           <input id="bcardID" type="number" />
-          <label> New ENS: </label>
+          <label> New topline: </label>
           <input id="ethName" type="text" />
-          <label>.eth; </label>
+          <label> </label>
           <label> New subtext: </label>
           <input id="nickName" type="text" />
           <button type={"submit"}>Update my Bcard info</button>
@@ -436,7 +436,7 @@ export function Bcard() {
 
       <div className="mintNewBcard">
         <form onSubmit={mintNewHandler}>
-          <label>My ENS: </label>
+          <label>My topline: </label>
           <input id="ethName" type="text" />
           <label> My subtext: </label>
           <input id="nickName" type="text" />
