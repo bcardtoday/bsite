@@ -11,6 +11,7 @@ import { BpaperGallery } from "./Pages/BpaperGallery";
 import { Bcard } from "./Pages/Bcard";
 import { Setting } from "./Pages/Setting";
 import { Stats } from "./Pages/Stats";
+import { RankingAdv } from "./Pages/RankingAdv";
 import "./Main.css";
 
 function Main() {
@@ -84,8 +85,10 @@ function Main() {
         <Route path="/bcard" element={<Bcard />} />
         <Route path="/feed" element={<BpaperGallery />} />
         <Route path="/rank" element={<Stats />} />
+        <Route path="/rank/adv" element={<RankingAdv />} />
         <Route path="/" element={<Bcard />} />
         <Route path="/admin" element={<Setting />} />
+
         {/* <Route path="/bchat" element={<ChatApp />} /> */}
       </Routes>
     </>
