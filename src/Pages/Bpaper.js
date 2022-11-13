@@ -5,6 +5,8 @@ import abi from ".././abi/abi.json";
 import bpaperCheckQuaAbi from ".././abi/bpaperCheckQuaAbi.json";
 import previewabi from ".././abi/preview.json";
 import bpaperabi from ".././abi/bpaperabi.json";
+import collection1Abi from ".././abi/collection1Abi.json";
+import oldBpaperAbi from ".././abi/oldBpaperAbi.json";
 import data from ".././data/data.json";
 import Popup from ".././components/popup";
 
@@ -32,27 +34,22 @@ export function Bpaper() {
   let web3UserPoly = null;
 
   //set networks
-  const bpaperContractAddr = "0xAEdc4773262c9036BDD3B0c9e4A53F39672A9f26";
+  const bpaperContractAddr = "0x3C2309aCB65dE5BEca0aec437147f514C1cAB651";
+  const collection1ContractAddr = "0x5fD73e74f05a72938ef7D9C730AA387bDFB76c27";
   const bcardContractAddr = "0xc6Dd0F44910eC78DAEa928C4d855A1a854752964";
-  const bpaperCheckQuaAddr = "0x27826B530111cBB3215AAaaDf3731f26d1A73165";
   const bpaperContract = new ethers.Contract(
-    "0xAEdc4773262c9036BDD3B0c9e4A53F39672A9f26",
-    abi,
+    bpaperContractAddr,
+    bpaperabi,
     provider
   );
-
-  const bcardContract = new ethers.Contract(
-    "0xc6Dd0F44910eC78DAEa928C4d855A1a854752964",
-    abi,
-    provider
-  );
+  const bcardContract = new ethers.Contract(bcardContractAddr, abi, provider);
 
   const Web3 = require("web3");
   const ensInfura = new Web3(new Web3.providers.HttpProvider(ethAPI));
 
   const polyConnection = async () => {
     const chainId = await window.ethereum.request({ method: "eth_chainId" });
-    if (chainId != "0x89") {
+    if (chainId !== "0x89") {
       togglePopup();
       window.ethereum.request({
         method: "wallet_addEthereumChain",
@@ -107,7 +104,7 @@ export function Bpaper() {
       method: "eth_requestAccounts",
     });
     var currentAccount = accounts[0].toString();
-    if (event.target.asBcardID.value != "") {
+    if (event.target.asBcardID.value !== "") {
       currentAccount = await bcardContract.getMinter(
         event.target.asBcardID.value
       );
@@ -126,8 +123,8 @@ export function Bpaper() {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
     const nftContract = new ethers.Contract(
-      "0xAEdc4773262c9036BDD3B0c9e4A53F39672A9f26",
-      abi,
+      bpaperContractAddr,
+      bpaperabi,
       signer
     );
     const accounts = await window.ethereum.request({
@@ -135,7 +132,7 @@ export function Bpaper() {
     });
     const currentAccount = accounts[0].toString();
     var sendTo = await bcardContract.getMinter(event.target.toBcardID.value);
-    let nftTransfer = await nftContract[
+    await nftContract[
       "safeTransferFrom(address,address,uint256,uint256,bytes)"
     ](
       currentAccount,
@@ -157,15 +154,15 @@ export function Bpaper() {
         const provider = new ethers.providers.Web3Provider(window.ethereum);
         const signer = provider.getSigner();
         const nftContract = new ethers.Contract(
-          "0xAEdc4773262c9036BDD3B0c9e4A53F39672A9f26",
-          abi,
+          bpaperContractAddr,
+          bpaperabi,
           signer
         );
         const accounts = await window.ethereum.request({
           method: "eth_requestAccounts",
         });
         const currentAccount = accounts[0].toString();
-        let nftTransfer = await nftContract[
+        await nftContract[
           "safeTransferFrom(address,address,uint256,uint256,bytes)"
         ](currentAccount, sendTo, event.target.bpaperID.value, num, "0x");
       });
@@ -176,19 +173,62 @@ export function Bpaper() {
     polyConnection();
 
     const previewContract = new ethers.Contract(
-      "0x22C3685990147Af5BBB5d94370C71B4FAD96412C",
-      previewabi,
+      collection1ContractAddr,
+      collection1Abi,
       signer
     );
 
+    let tagString = [];
+    let tagValueString = [];
+    if (event.target.tag1.value !== "") {
+      tagString.push(event.target.tag1.value);
+      tagValueString.push(event.target.tag1value.value);
+    }
+    if (event.target.tag2.value !== "") {
+      tagString.push(event.target.tag2.value);
+      tagValueString.push(event.target.tag2value.value);
+    }
+    if (event.target.tag3.value !== "") {
+      tagString.push(event.target.tag3.value);
+      tagValueString.push(event.target.tag3value.value);
+    }
+    if (event.target.tag4.value !== "") {
+      tagString.push(event.target.tag4.value);
+      tagValueString.push(event.target.tag4value.value);
+    }
+    if (event.target.tag5.value !== "") {
+      tagString.push(event.target.tag5.value);
+      tagValueString.push(event.target.tag5value.value);
+    }
+    if (event.target.tag6.value !== "") {
+      tagString.push(event.target.tag6.value);
+      tagValueString.push(event.target.tag6value.value);
+    }
+    if (event.target.tag7.value !== "") {
+      tagString.push(event.target.tag7.value);
+      tagValueString.push(event.target.tag7value.value);
+    }
+    if (event.target.tag8.value !== "") {
+      tagString.push(event.target.tag8.value);
+      tagValueString.push(event.target.tag8value.value);
+    }
+    if (event.target.tag9.value !== "") {
+      tagString.push(event.target.tag.value);
+      tagValueString.push(event.target.tag9value.value);
+    }
+    if (event.target.tag10.value !== "") {
+      tagString.push(event.target.tag10.value);
+      tagValueString.push(event.target.tag10value.value);
+    }
+
     let tempURL = await previewContract[
-      "master(string,string,string,uint256,string)"
+      "PreviewTokenURI(uint256,string,string[],string[],string)"
     ](
-      event.target.title.value,
-      event.target.category.value,
-      event.target.content.value,
       event.target.bcardID.value,
-      event.target.ensName.value
+      event.target.title.value,
+      tagString,
+      tagValueString,
+      event.target.content.value
     );
     const jsonURL = JSON.parse(atob(tempURL.substring(29)));
     setPreview(jsonURL.image);
@@ -204,23 +244,77 @@ export function Bpaper() {
       method: "eth_requestAccounts",
     });
     const currentAccount = accounts[0].toString();
-    var BpaperContract = new ethers.Contract(bpaperContractAddr, abi, provider);
-    var minterAddr = await BpaperContract.getMinter(
+    var BpaperContract = new ethers.Contract(
+      bpaperContractAddr,
+      bpaperabi,
+      provider
+    );
+    var minterBcardIDtemp = await BpaperContract.getMinterBcardID(
       event.target.bpaperID.value
     );
-    if (minterAddr == currentAccount) {
+    let minterBcardID = parseInt(minterBcardIDtemp._hex, 16);
+    var thisBcardIDtemp = await bcardContract.AddressToTokenID(currentAccount);
+    let thisBcardID = parseInt(thisBcardIDtemp._hex, 16);
+    // console.log(thisBcardID);
+    console.log(minterBcardID);
+
+    let tagString = [];
+    let tagValueString = [];
+    if (event.target.tag1.value !== "") {
+      tagString.push(event.target.tag1.value);
+      tagValueString.push(event.target.tag1value.value);
+    }
+    if (event.target.tag2.value !== "") {
+      tagString.push(event.target.tag2.value);
+      tagValueString.push(event.target.tag2value.value);
+    }
+    if (event.target.tag3.value !== "") {
+      tagString.push(event.target.tag3.value);
+      tagValueString.push(event.target.tag3value.value);
+    }
+    if (event.target.tag4.value !== "") {
+      tagString.push(event.target.tag4.value);
+      tagValueString.push(event.target.tag4value.value);
+    }
+    if (event.target.tag5.value !== "") {
+      tagString.push(event.target.tag5.value);
+      tagValueString.push(event.target.tag5value.value);
+    }
+    if (event.target.tag6.value !== "") {
+      tagString.push(event.target.tag6.value);
+      tagValueString.push(event.target.tag6value.value);
+    }
+    if (event.target.tag7.value !== "") {
+      tagString.push(event.target.tag7.value);
+      tagValueString.push(event.target.tag7value.value);
+    }
+    if (event.target.tag8.value !== "") {
+      tagString.push(event.target.tag8.value);
+      tagValueString.push(event.target.tag8value.value);
+    }
+    if (event.target.tag9.value !== "") {
+      tagString.push(event.target.tag.value);
+      tagValueString.push(event.target.tag9value.value);
+    }
+    if (event.target.tag10.value !== "") {
+      tagString.push(event.target.tag10.value);
+      tagValueString.push(event.target.tag10value.value);
+    }
+
+    if (minterBcardID === thisBcardID) {
       const makePaperContract = new ethers.Contract(
-        "0xAEdc4773262c9036BDD3B0c9e4A53F39672A9f26",
-        bpaperabi,
+        collection1ContractAddr,
+        collection1Abi,
         signer
       );
 
-      let tempURL = await makePaperContract[
-        "updateContent(uint256,string,string,string)"
+      await makePaperContract[
+        "updateContent(uint256,string,string[],string[],string)"
       ](
         event.target.bpaperID.value,
         event.target.title.value,
-        event.target.category.value,
+        tagString,
+        tagValueString,
         event.target.content.value
       ).then(async function (address) {
         setAmendMsg(
@@ -230,26 +324,7 @@ export function Bpaper() {
         );
       });
     } else {
-      const makePaperContract = new ethers.Contract(
-        bpaperCheckQuaAddr,
-        bpaperCheckQuaAbi,
-        signer
-      );
-
-      let tempURL = await makePaperContract[
-        "checkAmend(uint256,string,string,string)"
-      ](
-        event.target.bpaperID.value,
-        event.target.title.value,
-        event.target.category.value,
-        event.target.content.value
-      ).then(async function (address) {
-        setAmendMsg(
-          "You edited Bpaper ID." +
-            event.target.bpaperID.value +
-            ", take a look using the view function!"
-        );
-      });
+      setAmendMsg("address does not match with minter");
     }
   };
 
@@ -257,22 +332,66 @@ export function Bpaper() {
     event.preventDefault();
     polyConnection();
     const makePaperContract = new ethers.Contract(
-      "0xAEdc4773262c9036BDD3B0c9e4A53F39672A9f26",
-      bpaperabi,
+      collection1ContractAddr,
+      collection1Abi,
       signer
     );
+    let tagString = [];
+    let tagValueString = [];
+    if (event.target.tag1.value !== "") {
+      tagString.push(event.target.tag1.value);
+      tagValueString.push(event.target.tag1value.value);
+    }
+    if (event.target.tag2.value !== "") {
+      tagString.push(event.target.tag2.value);
+      tagValueString.push(event.target.tag2value.value);
+    }
+    if (event.target.tag3.value !== "") {
+      tagString.push(event.target.tag3.value);
+      tagValueString.push(event.target.tag3value.value);
+    }
+    if (event.target.tag4.value !== "") {
+      tagString.push(event.target.tag4.value);
+      tagValueString.push(event.target.tag4value.value);
+    }
+    if (event.target.tag5.value !== "") {
+      tagString.push(event.target.tag5.value);
+      tagValueString.push(event.target.tag5value.value);
+    }
+    if (event.target.tag6.value !== "") {
+      tagString.push(event.target.tag6.value);
+      tagValueString.push(event.target.tag6value.value);
+    }
+    if (event.target.tag7.value !== "") {
+      tagString.push(event.target.tag7.value);
+      tagValueString.push(event.target.tag7value.value);
+    }
+    if (event.target.tag8.value !== "") {
+      tagString.push(event.target.tag8.value);
+      tagValueString.push(event.target.tag8value.value);
+    }
+    if (event.target.tag9.value !== "") {
+      tagString.push(event.target.tag.value);
+      tagValueString.push(event.target.tag9value.value);
+    }
+    if (event.target.tag10.value !== "") {
+      tagString.push(event.target.tag10.value);
+      tagValueString.push(event.target.tag10value.value);
+    }
 
+    //mint new paper
     let tempBigNumber = await makePaperContract["totalSupply()"]();
     let tempCount = parseInt(tempBigNumber._hex, 16) + 1;
-    let tempURL = await makePaperContract[
-      "mintNew(string,string,string,uint256,address)"
+    await makePaperContract[
+      "mintNew(string,string[],string[],string,uint256,address)"
     ](
       event.target.title.value,
-      event.target.category.value,
+      tagString,
+      tagValueString,
       event.target.content.value,
       event.target.amount.value,
       event.target.toAddress.value
-    ).then(async function (address) {
+    ).then(async function () {
       setMintMsg("You minted Bpaper Num." + tempCount + ", check it out!");
     });
   };
@@ -283,16 +402,62 @@ export function Bpaper() {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
     const nftContract = new ethers.Contract(
-      "0xAEdc4773262c9036BDD3B0c9e4A53F39672A9f26",
-      abi,
+      collection1ContractAddr,
+      collection1Abi,
       signer
     );
-    let nftAdd = await nftContract["mintAdd(address,uint256,uint256)"](
+    await nftContract["mintAdd(address,uint256,uint256)"](
       event.target.address.value,
       event.target.bpaperID.value,
       event.target.num.value
     );
   };
+
+  // const TempHandler = async (event) => {
+  //   event.preventDefault();
+  //   polyConnection();
+  //   const provider = new ethers.providers.Web3Provider(window.ethereum);
+  //   const signer = provider.getSigner();
+  //   const nftContract = new ethers.Contract(
+  //     bpaperContractAddr,
+  //     bpaperabi,
+  //     signer
+  //   );
+
+  //   const bcardContract = new ethers.Contract(bcardContractAddr, abi, signer);
+
+  //   let oldBpaperAddr = "0xAEdc4773262c9036BDD3B0c9e4A53F39672A9f26";
+  //   const oldBpaperContract = new ethers.Contract(
+  //     oldBpaperAddr,
+  //     oldBpaperAbi,
+  //     signer
+  //   );
+
+  //   var totalBpaperArray = [];
+  //   for (let i = 1; i < 510; i++) {//510
+  //     totalBpaperArray.push([]);
+  //   }
+
+  //   console.log("start");
+  //   var holders = 0;
+  //   for (let i = 1; i <424; i++) {
+  //     var minterBcardIDTemp = await nftContract.getMinterBcardID(i);
+  //     var minterBcardID = parseInt(minterBcardIDTemp._hex, 16);
+  //     totalBpaperArray[minterBcardID].push(i);
+  //   }
+
+  //   for (let i = 1; i < 505; i++) {//510
+  //     if (totalBpaperArray[i].length > 0 ){
+  //       console.log("updating for Bcard ID: " + i);
+  //       console.log(totalBpaperArray[i]);
+  //       await nftContract["zUpdateMinterIDToPaper(uint256,uint256[])"](
+  //         i,
+  //         totalBpaperArray[i]
+  //       );
+  //     };
+  //   }
+  //   // console.log(holders);
+  // };
 
   useEffect(() => {
     initConnection();
@@ -393,14 +558,65 @@ export function Bpaper() {
         <form onSubmit={previewHandler}>
           <label>title: </label>
           <input id="title" type="text" />
-          <label>category: </label>
-          <input id="category" type="text" />
           <label>content: </label>
           <input id="content" type="text" />
           <label>my Bcard ID: </label>
           <input id="bcardID" type="text" />
           <label>my ens name: </label>
           <input id="ensName" type="text" />
+          <p>
+            Add tags below: (shown as tag: tag value; minimum 1 set and rest can
+            be blank)
+          </p>
+          <label>Tag 1 : </label>
+          <input id="tag1" type="text" />
+          <label>Tag 1 value : </label>
+          <input id="tag1value" type="text" />
+          <p></p>
+          <label>Tag 2 : </label>
+          <input id="tag2" type="text" />
+          <label>Tag 2 value : </label>
+          <input id="tag2value" type="text" />
+          <p></p>
+          <label>Tag 3 : </label>
+          <input id="tag3" type="text" />
+          <label>Tag 3 value : </label>
+          <input id="tag3value" type="text" />
+          <p></p>
+          <label>Tag 4 : </label>
+          <input id="tag4" type="text" />
+          <label>Tag 4 value : </label>
+          <input id="tag4value" type="text" />
+          <p></p>
+          <label>Tag 5 : </label>
+          <input id="tag5" type="text" />
+          <label>Tag 5 value : </label>
+          <input id="tag5value" type="text" />
+          <p></p>
+          <label>Tag 6 : </label>
+          <input id="tag6" type="text" />
+          <label>Tag 6 value : </label>
+          <input id="tag6value" type="text" />
+          <p></p>
+          <label>Tag 7 : </label>
+          <input id="tag7" type="text" />
+          <label>Tag 7 value : </label>
+          <input id="tag7value" type="text" />
+          <p></p>
+          <label>Tag 8 : </label>
+          <input id="tag8" type="text" />
+          <label>Tag 8 value : </label>
+          <input id="tag8value" type="text" />
+          <p></p>
+          <label>Tag 9 : </label>
+          <input id="tag9" type="text" />
+          <label>Tag 9 value : </label>
+          <input id="tag9value" type="text" />
+          <p></p>
+          <label>Tag 10: </label>
+          <input id="tag10" type="text" />
+          <label>Tag 10 value: </label>
+          <input id="tag10value" type="text" />
           <button type={"submit"}> Preview </button>
           <p></p>
           <img src={previewURL} className="" alt="" />
@@ -417,10 +633,61 @@ export function Bpaper() {
           <input id="bpaperID" type="text" />
           <label>title: </label>
           <input id="title" type="text" />
-          <label>category:</label>
-          <input id="category" type="text" />
           <label>content:</label>
           <input id="content" type="text" />
+          <p>
+            Add tags below: (shown as tag: tag value; minimum 1 set and rest can
+            be blank)
+          </p>
+          <label>Tag 1 : </label>
+          <input id="tag1" type="text" />
+          <label>Tag 1 value : </label>
+          <input id="tag1value" type="text" />
+          <p></p>
+          <label>Tag 2 : </label>
+          <input id="tag2" type="text" />
+          <label>Tag 2 value : </label>
+          <input id="tag2value" type="text" />
+          <p></p>
+          <label>Tag 3 : </label>
+          <input id="tag3" type="text" />
+          <label>Tag 3 value : </label>
+          <input id="tag3value" type="text" />
+          <p></p>
+          <label>Tag 4 : </label>
+          <input id="tag4" type="text" />
+          <label>Tag 4 value : </label>
+          <input id="tag4value" type="text" />
+          <p></p>
+          <label>Tag 5 : </label>
+          <input id="tag5" type="text" />
+          <label>Tag 5 value : </label>
+          <input id="tag5value" type="text" />
+          <p></p>
+          <label>Tag 6 : </label>
+          <input id="tag6" type="text" />
+          <label>Tag 6 value : </label>
+          <input id="tag6value" type="text" />
+          <p></p>
+          <label>Tag 7 : </label>
+          <input id="tag7" type="text" />
+          <label>Tag 7 value : </label>
+          <input id="tag7value" type="text" />
+          <p></p>
+          <label>Tag 8 : </label>
+          <input id="tag8" type="text" />
+          <label>Tag 8 value : </label>
+          <input id="tag8value" type="text" />
+          <p></p>
+          <label>Tag 9 : </label>
+          <input id="tag9" type="text" />
+          <label>Tag 9 value : </label>
+          <input id="tag9value" type="text" />
+          <p></p>
+          <label>Tag 10: </label>
+          <input id="tag10" type="text" />
+          <label>Tag 10 value: </label>
+          <input id="tag10value" type="text" />
           <button type={"submit"}> amend this Bpaper </button>
           <p>{amendMsg}</p>
         </form>
@@ -432,16 +699,67 @@ export function Bpaper() {
 
       <div className="makeBpaper">
         <form onSubmit={makeHandler}>
-          <label>title: </label>
+          <label>Title: </label>
           <input id="title" type="text" />
-          <label>category: </label>
-          <input id="category" type="text" />
           <label>content:</label>
           <input id="content" type="text" />
           <label>mint amount: </label>
           <input id="amount" type="number" />
           <label>mint to address: </label>
           <input id="toAddress" type="text" />
+          <p>
+            Add tags below: (shown as tag: tag value; minimum 1 set and rest can
+            be blank)
+          </p>
+          <label>Tag 1 : </label>
+          <input id="tag1" type="text" />
+          <label>Tag 1 value : </label>
+          <input id="tag1value" type="text" />
+          <p></p>
+          <label>Tag 2 : </label>
+          <input id="tag2" type="text" />
+          <label>Tag 2 value : </label>
+          <input id="tag2value" type="text" />
+          <p></p>
+          <label>Tag 3 : </label>
+          <input id="tag3" type="text" />
+          <label>Tag 3 value : </label>
+          <input id="tag3value" type="text" />
+          <p></p>
+          <label>Tag 4 : </label>
+          <input id="tag4" type="text" />
+          <label>Tag 4 value : </label>
+          <input id="tag4value" type="text" />
+          <p></p>
+          <label>Tag 5 : </label>
+          <input id="tag5" type="text" />
+          <label>Tag 5 value : </label>
+          <input id="tag5value" type="text" />
+          <p></p>
+          <label>Tag 6 : </label>
+          <input id="tag6" type="text" />
+          <label>Tag 6 value : </label>
+          <input id="tag6value" type="text" />
+          <p></p>
+          <label>Tag 7 : </label>
+          <input id="tag7" type="text" />
+          <label>Tag 7 value : </label>
+          <input id="tag7value" type="text" />
+          <p></p>
+          <label>Tag 8 : </label>
+          <input id="tag8" type="text" />
+          <label>Tag 8 value : </label>
+          <input id="tag8value" type="text" />
+          <p></p>
+          <label>Tag 9 : </label>
+          <input id="tag9" type="text" />
+          <label>Tag 9 value : </label>
+          <input id="tag9value" type="text" />
+          <p></p>
+          <label>Tag 10: </label>
+          <input id="tag10" type="text" />
+          <label>Tag 10 value: </label>
+          <input id="tag10value" type="text" />
           <button type={"submit"}> mint this Bpaper </button>
           <p>{mintMsg}</p>
         </form>
@@ -462,6 +780,16 @@ export function Bpaper() {
           <button type={"submit"}>Add more Bpaper</button>
         </form>
       </div>
+
+      {/* <div className="addBpaper">
+        <form onSubmit={TempHandler}>
+          <label>start Bpaper ID: </label>
+          <input id="start" type="number" />
+          <label>end Bpaper ID: </label>
+          <input id="end" type="number" />
+          <button type={"submit"}>admin!!!!!!!!!!!!</button>
+        </form>
+      </div> */}
     </div>
   );
 }

@@ -32,7 +32,7 @@ export function BpaperGallery() {
 
   //set networks
   const bpaperContract = new ethers.Contract(
-    "0xAEdc4773262c9036BDD3B0c9e4A53F39672A9f26",
+    "0x3C2309aCB65dE5BEca0aec437147f514C1cAB651",
     abi,
     provider
   );
@@ -121,7 +121,7 @@ export function BpaperGallery() {
     setPaperLogs([]);
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const nftContract = new ethers.Contract(
-      "0xAEdc4773262c9036BDD3B0c9e4A53F39672A9f26",
+      "0x3C2309aCB65dE5BEca0aec437147f514C1cAB651",
       abi,
       provider
     );

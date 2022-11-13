@@ -139,19 +139,23 @@
   },
   {
     "inputs": [],
-    "name": "NMaxPaper",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "name": "AdAddr",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
     "stateMutability": "view",
     "type": "function"
   },
   {
-    "inputs": [
-      { "internalType": "uint256", "name": "_PaperID", "type": "uint256" },
-      { "internalType": "address", "name": "_minter", "type": "address" }
-    ],
-    "name": "RM",
-    "outputs": [],
-    "stateMutability": "payable",
+    "inputs": [],
+    "name": "BcardContractAddr",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "MAKEPaperAddr",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -186,8 +190,58 @@
     "type": "function"
   },
   {
-    "inputs": [{ "internalType": "uint256", "name": "_ID", "type": "uint256" }],
-    "name": "checkNewPaperforMint",
+    "inputs": [
+      { "internalType": "uint256", "name": "_designID", "type": "uint256" }
+    ],
+    "name": "checkCollectionAddress",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "", "type": "uint256" },
+      { "internalType": "uint256", "name": "", "type": "uint256" }
+    ],
+    "name": "collectionToPaper",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_PaperID", "type": "uint256" }
+    ],
+    "name": "getBcardCollectionID",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_address", "type": "address" }
+    ],
+    "name": "getBcardID",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_collectionID", "type": "uint256" }
+    ],
+    "name": "getCollectionPaper",
+    "outputs": [
+      { "internalType": "uint256[]", "name": "", "type": "uint256[]" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_PaperID", "type": "uint256" }
+    ],
+    "name": "getMinterBcardID",
     "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
     "type": "function"
@@ -196,33 +250,10 @@
     "inputs": [
       { "internalType": "uint256", "name": "_BcardID", "type": "uint256" }
     ],
-    "name": "checkTotalCardCollectedByToken",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "uint256", "name": "_PaperID", "type": "uint256" }
+    "name": "getMinterPaper",
+    "outputs": [
+      { "internalType": "uint256[]", "name": "", "type": "uint256[]" }
     ],
-    "name": "checkTotalPaperMinted",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "cost",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "uint256", "name": "_PaperID", "type": "uint256" }
-    ],
-    "name": "getMinter",
-    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
     "stateMutability": "view",
     "type": "function"
   },
@@ -239,7 +270,7 @@
   {
     "inputs": [
       { "internalType": "address", "name": "_to", "type": "address" },
-      { "internalType": "uint256", "name": "_ID", "type": "uint256" },
+      { "internalType": "uint256", "name": "_BpaperID", "type": "uint256" },
       { "internalType": "uint256", "name": "_Amount", "type": "uint256" }
     ],
     "name": "mintAdd",
@@ -249,15 +280,28 @@
   },
   {
     "inputs": [
-      { "internalType": "string", "name": "_Title", "type": "string" },
-      { "internalType": "string", "name": "_Category", "type": "string" },
-      { "internalType": "string", "name": "_Content", "type": "string" },
+      { "internalType": "uint256", "name": "_collectionID", "type": "uint256" },
       { "internalType": "uint256", "name": "_Amount", "type": "uint256" },
+      {
+        "internalType": "address",
+        "name": "_minterAddress",
+        "type": "address"
+      },
       { "internalType": "address", "name": "cardholder", "type": "address" }
     ],
     "name": "mintNew",
     "outputs": [],
     "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "", "type": "uint256" },
+      { "internalType": "uint256", "name": "", "type": "uint256" }
+    ],
+    "name": "minterIDToPaper",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -278,11 +322,8 @@
     "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "name": "papers",
     "outputs": [
-      { "internalType": "string", "name": "title", "type": "string" },
-      { "internalType": "string", "name": "category", "type": "string" },
-      { "internalType": "string", "name": "content", "type": "string" },
-      { "internalType": "address", "name": "minter", "type": "address" },
-      { "internalType": "uint256", "name": "editTime", "type": "uint256" }
+      { "internalType": "uint256", "name": "collectionID", "type": "uint256" },
+      { "internalType": "uint256", "name": "minterBcardID", "type": "uint256" }
     ],
     "stateMutability": "view",
     "type": "function"
@@ -290,17 +331,6 @@
   {
     "inputs": [],
     "name": "renounceOwnership",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "address", "name": "_address", "type": "address" },
-      { "internalType": "uint256", "name": "_PaperID", "type": "uint256" },
-      { "internalType": "uint256", "name": "_amount", "type": "uint256" }
-    ],
-    "name": "sRemove",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -337,16 +367,6 @@
       { "internalType": "bool", "name": "approved", "type": "bool" }
     ],
     "name": "setApprovalForAll",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "uint256", "name": "_newCost", "type": "uint256" },
-      { "internalType": "uint256", "name": "_newNMaxPaper", "type": "uint256" }
-    ],
-    "name": "setCostNStartCard",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -406,19 +426,6 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "_PaperID", "type": "uint256" },
-      { "internalType": "string", "name": "_title", "type": "string" },
-      { "internalType": "string", "name": "_category", "type": "string" },
-      { "internalType": "string", "name": "_content", "type": "string" }
-    ],
-    "name": "updateContent",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "address", "name": "_CheckQua", "type": "address" },
       { "internalType": "address", "name": "_MAKEPaper", "type": "address" },
       { "internalType": "address", "name": "_BCard", "type": "address" },
       { "internalType": "address", "name": "_Admin", "type": "address" }
@@ -438,6 +445,66 @@
   {
     "inputs": [],
     "name": "withdraw",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_PaperID", "type": "uint256" },
+      { "internalType": "uint256", "name": "oMinter", "type": "uint256" },
+      { "internalType": "uint256", "name": "nMinter", "type": "uint256" },
+      {
+        "internalType": "uint256[]",
+        "name": "oMinterList",
+        "type": "uint256[]"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "nMinterList",
+        "type": "uint256[]"
+      }
+    ],
+    "name": "zRM",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_address", "type": "address" },
+      { "internalType": "uint256", "name": "_PaperID", "type": "uint256" },
+      { "internalType": "uint256", "name": "_amount", "type": "uint256" }
+    ],
+    "name": "zRemove",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_collectionID", "type": "uint256" },
+      {
+        "internalType": "uint256[]",
+        "name": "_newPaperList",
+        "type": "uint256[]"
+      }
+    ],
+    "name": "zUpdateCollectionToPaper",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_minterID", "type": "uint256" },
+      {
+        "internalType": "uint256[]",
+        "name": "_newPaperList",
+        "type": "uint256[]"
+      }
+    ],
+    "name": "zUpdateMinterIDToPaper",
     "outputs": [],
     "stateMutability": "payable",
     "type": "function"

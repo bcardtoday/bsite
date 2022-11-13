@@ -138,39 +138,18 @@
     "type": "event"
   },
   {
-    "inputs": [
-      { "internalType": "address", "name": "_address", "type": "address" }
-    ],
-    "name": "AddressToTokenID",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
     "inputs": [],
-    "name": "NstartCard",
+    "name": "NMaxPaper",
     "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "_ID", "type": "uint256" },
+      { "internalType": "uint256", "name": "_PaperID", "type": "uint256" },
       { "internalType": "address", "name": "_minter", "type": "address" }
     ],
     "name": "RM",
-    "outputs": [],
-    "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "uint256", "name": "_ID", "type": "uint256" },
-      { "internalType": "uint256", "name": "_FirstRecID", "type": "uint256" },
-      { "internalType": "uint256", "name": "_SecRecID", "type": "uint256" },
-      { "internalType": "uint256", "name": "_ThirdRecID", "type": "uint256" }
-    ],
-    "name": "RecoverMinter",
     "outputs": [],
     "stateMutability": "payable",
     "type": "function"
@@ -198,41 +177,35 @@
     "type": "function"
   },
   {
-    "inputs": [{ "internalType": "uint256", "name": "_ID", "type": "uint256" }],
+    "inputs": [
+      { "internalType": "uint256", "name": "_BpaperID", "type": "uint256" }
+    ],
     "name": "buildMetaData",
     "outputs": [],
     "stateMutability": "payable",
     "type": "function"
   },
   {
-    "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "name": "cards",
-    "outputs": [
-      { "internalType": "string", "name": "ethName", "type": "string" },
-      { "internalType": "string", "name": "ethNick", "type": "string" },
-      { "internalType": "address", "name": "minter", "type": "address" },
-      { "internalType": "bool", "name": "cNoENS", "type": "bool" }
+    "inputs": [{ "internalType": "uint256", "name": "_ID", "type": "uint256" }],
+    "name": "checkNewPaperforMint",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_BcardID", "type": "uint256" }
     ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [{ "internalType": "uint256", "name": "_ID", "type": "uint256" }],
-    "name": "checkNewCardforMint",
+    "name": "checkTotalCardCollectedByToken",
     "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
     "type": "function"
   },
   {
-    "inputs": [{ "internalType": "uint256", "name": "_ID", "type": "uint256" }],
-    "name": "checkTotalCardCollected",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [{ "internalType": "uint256", "name": "_ID", "type": "uint256" }],
-    "name": "checkTotalCardMinted",
+    "inputs": [
+      { "internalType": "uint256", "name": "_PaperID", "type": "uint256" }
+    ],
+    "name": "checkTotalPaperMinted",
     "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
     "type": "function"
@@ -246,15 +219,8 @@
   },
   {
     "inputs": [
-      { "internalType": "string", "name": "_ethName", "type": "string" }
+      { "internalType": "uint256", "name": "_PaperID", "type": "uint256" }
     ],
-    "name": "getEthName",
-    "outputs": [{ "internalType": "string", "name": "", "type": "string" }],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [{ "internalType": "uint256", "name": "_ID", "type": "uint256" }],
     "name": "getMinter",
     "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
     "stateMutability": "view",
@@ -274,7 +240,7 @@
     "inputs": [
       { "internalType": "address", "name": "_to", "type": "address" },
       { "internalType": "uint256", "name": "_ID", "type": "uint256" },
-      { "internalType": "uint256", "name": "_NumOfCards", "type": "uint256" }
+      { "internalType": "uint256", "name": "_Amount", "type": "uint256" }
     ],
     "name": "mintAdd",
     "outputs": [],
@@ -283,8 +249,10 @@
   },
   {
     "inputs": [
-      { "internalType": "string", "name": "_ethName", "type": "string" },
-      { "internalType": "string", "name": "_Nick", "type": "string" },
+      { "internalType": "string", "name": "_Title", "type": "string" },
+      { "internalType": "string", "name": "_Category", "type": "string" },
+      { "internalType": "string", "name": "_Content", "type": "string" },
+      { "internalType": "uint256", "name": "_Amount", "type": "uint256" },
       { "internalType": "address", "name": "cardholder", "type": "address" }
     ],
     "name": "mintNew",
@@ -307,6 +275,19 @@
     "type": "function"
   },
   {
+    "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "name": "papers",
+    "outputs": [
+      { "internalType": "string", "name": "title", "type": "string" },
+      { "internalType": "string", "name": "category", "type": "string" },
+      { "internalType": "string", "name": "content", "type": "string" },
+      { "internalType": "address", "name": "minter", "type": "address" },
+      { "internalType": "uint256", "name": "editTime", "type": "uint256" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [],
     "name": "renounceOwnership",
     "outputs": [],
@@ -316,7 +297,7 @@
   {
     "inputs": [
       { "internalType": "address", "name": "_address", "type": "address" },
-      { "internalType": "uint256", "name": "_ID", "type": "uint256" },
+      { "internalType": "uint256", "name": "_PaperID", "type": "uint256" },
       { "internalType": "uint256", "name": "_amount", "type": "uint256" }
     ],
     "name": "sRemove",
@@ -363,7 +344,7 @@
   {
     "inputs": [
       { "internalType": "uint256", "name": "_newCost", "type": "uint256" },
-      { "internalType": "uint256", "name": "_newStartCard", "type": "uint256" }
+      { "internalType": "uint256", "name": "_newNMaxPaper", "type": "uint256" }
     ],
     "name": "setCostNStartCard",
     "outputs": [],
@@ -395,7 +376,7 @@
   },
   {
     "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "name": "totalCard",
+    "name": "totalPaper",
     "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
     "type": "function"
@@ -425,23 +406,24 @@
   },
   {
     "inputs": [
-      { "internalType": "address", "name": "_CheckQua", "type": "address" },
-      { "internalType": "address", "name": "_MAKECard", "type": "address" },
-      { "internalType": "address", "name": "_RecStor", "type": "address" },
-      { "internalType": "address", "name": "_Admin", "type": "address" }
+      { "internalType": "uint256", "name": "_PaperID", "type": "uint256" },
+      { "internalType": "string", "name": "_title", "type": "string" },
+      { "internalType": "string", "name": "_category", "type": "string" },
+      { "internalType": "string", "name": "_content", "type": "string" }
     ],
-    "name": "updateContracts",
+    "name": "updateContent",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "_ID", "type": "uint256" },
-      { "internalType": "string", "name": "_ethName", "type": "string" },
-      { "internalType": "string", "name": "_Nick", "type": "string" }
+      { "internalType": "address", "name": "_CheckQua", "type": "address" },
+      { "internalType": "address", "name": "_MAKEPaper", "type": "address" },
+      { "internalType": "address", "name": "_BCard", "type": "address" },
+      { "internalType": "address", "name": "_Admin", "type": "address" }
     ],
-    "name": "updateEthName",
+    "name": "updateContracts",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
