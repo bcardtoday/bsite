@@ -35,7 +35,7 @@ export function Bpaper() {
 
   //set networks
   const bpaperContractAddr = "0x3C2309aCB65dE5BEca0aec437147f514C1cAB651";
-  const collection1ContractAddr = "0x5fD73e74f05a72938ef7D9C730AA387bDFB76c27";
+  const collection1ContractAddr = "0x1d6d47B5Ec7D90D1607566c4DB4449be8904f5e7";
   const bcardContractAddr = "0xc6Dd0F44910eC78DAEa928C4d855A1a854752964";
   const bpaperContract = new ethers.Contract(
     bpaperContractAddr,
