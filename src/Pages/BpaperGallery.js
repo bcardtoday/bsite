@@ -161,8 +161,7 @@ export function BpaperGallery() {
           <img
             src={imgSrc.src}
             key={index}
-            alt=""
-            className="BpaperReaderImage"
+            alt="" className="BpaperReaderImage"
           />
         ))}
       </div>

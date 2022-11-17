@@ -13,6 +13,7 @@ import { Setting } from "./Pages/Setting";
 import { Stats } from "./Pages/Stats";
 import { RankingAdv } from "./Pages/RankingAdv";
 import { SimpleBcard } from "./Pages/Simple Bcard";
+import { Postcard } from "./Pages/Postcard";
 import "./Main.css";
 
 function Main() {
@@ -53,6 +54,14 @@ function Main() {
           </li>
           <li>
             <CustomLink
+              to="/mail"
+              style={{ color: "inherit", textDecoration: "inherit" }}
+            >
+              Mail
+            </CustomLink>
+          </li>
+          <li>
+            <CustomLink
               to="/feed"
               style={{ color: "inherit", textDecoration: "inherit" }}
             >
@@ -67,6 +76,7 @@ function Main() {
               Rank
             </CustomLink>
           </li>
+          
           <li>
             <CustomLink
               to="/admin"
@@ -84,6 +94,7 @@ function Main() {
         <Route path="/bsite" element={<Home />} />
         <Route path="/bpaper" element={<Bpaper />} />
         <Route path="/bcard" element={<Bcard />} />
+        <Route path="/mail" element={<Postcard />} />
         <Route path="/feed" element={<BpaperGallery />} />
         <Route path="/rank" element={<Stats />} />
         <Route path="/rankadv" element={<RankingAdv />} />
