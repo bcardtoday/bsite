@@ -213,7 +213,7 @@ export function Bpaper() {
       tagValueString.push(event.target.tag8value.value);
     }
     if (event.target.tag9.value !== "") {
-      tagString.push(event.target.tag.value);
+      tagString.push(event.target.tag9.value);
       tagValueString.push(event.target.tag9value.value);
     }
     if (event.target.tag10.value !== "") {
@@ -293,7 +293,7 @@ export function Bpaper() {
       tagValueString.push(event.target.tag8value.value);
     }
     if (event.target.tag9.value !== "") {
-      tagString.push(event.target.tag.value);
+      tagString.push(event.target.tag9.value);
       tagValueString.push(event.target.tag9value.value);
     }
     if (event.target.tag10.value !== "") {
@@ -371,7 +371,7 @@ export function Bpaper() {
       tagValueString.push(event.target.tag8value.value);
     }
     if (event.target.tag9.value !== "") {
-      tagString.push(event.target.tag.value);
+      tagString.push(event.target.tag9.value);
       tagValueString.push(event.target.tag9value.value);
     }
     if (event.target.tag10.value !== "") {
@@ -568,54 +568,54 @@ export function Bpaper() {
             Add tags below: (shown as tag: tag value; minimum 1 set and rest can
             be blank)
           </p>
-          <label>Tag 1 : </label>
+          <label>Category 1 : </label>
           <input id="tag1" type="text" />
-          <label>Tag 1 value : </label>
+          <label>Trait : </label>
           <input id="tag1value" type="text" />
           <p></p>
-          <label>Tag 2 : </label>
+          <label>Category 2 : </label>
           <input id="tag2" type="text" />
-          <label>Tag 2 value : </label>
+          <label>Trait : </label>
           <input id="tag2value" type="text" />
           <p></p>
-          <label>Tag 3 : </label>
+          <label>Category 3 : </label>
           <input id="tag3" type="text" />
-          <label>Tag 3 value : </label>
+          <label>Trait : </label>
           <input id="tag3value" type="text" />
           <p></p>
-          <label>Tag 4 : </label>
+          <label>Category 4 : </label>
           <input id="tag4" type="text" />
-          <label>Tag 4 value : </label>
+          <label>Trait : </label>
           <input id="tag4value" type="text" />
           <p></p>
-          <label>Tag 5 : </label>
+          <label>Category 5 : </label>
           <input id="tag5" type="text" />
-          <label>Tag 5 value : </label>
+          <label>Trait : </label>
           <input id="tag5value" type="text" />
           <p></p>
-          <label>Tag 6 : </label>
+          <label>Category 6 : </label>
           <input id="tag6" type="text" />
-          <label>Tag 6 value : </label>
+          <label>Trait : </label>
           <input id="tag6value" type="text" />
           <p></p>
-          <label>Tag 7 : </label>
+          <label>Category 7 : </label>
           <input id="tag7" type="text" />
-          <label>Tag 7 value : </label>
+          <label>Trait : </label>
           <input id="tag7value" type="text" />
           <p></p>
-          <label>Tag 8 : </label>
+          <label>Category 8 : </label>
           <input id="tag8" type="text" />
-          <label>Tag 8 value : </label>
+          <label>Trait : </label>
           <input id="tag8value" type="text" />
           <p></p>
-          <label>Tag 9 : </label>
+          <label>Category 9 : </label>
           <input id="tag9" type="text" />
-          <label>Tag 9 value : </label>
+          <label>Trait : </label>
           <input id="tag9value" type="text" />
           <p></p>
-          <label>Tag 10: </label>
+          <label>Category 10: </label>
           <input id="tag10" type="text" />
-          <label>Tag 10 value: </label>
+          <label>Trait : </label>
           <input id="tag10value" type="text" />
           <button type={"submit"}> Preview </button>
           <p></p>
@@ -639,54 +639,54 @@ export function Bpaper() {
             Add tags below: (shown as tag: tag value; minimum 1 set and rest can
             be blank)
           </p>
-          <label>Tag 1 : </label>
+          <label>Category 1 : </label>
           <input id="tag1" type="text" />
-          <label>Tag 1 value : </label>
+          <label>Trait : </label>
           <input id="tag1value" type="text" />
           <p></p>
-          <label>Tag 2 : </label>
+          <label>Category 2 : </label>
           <input id="tag2" type="text" />
-          <label>Tag 2 value : </label>
+          <label>Trait : </label>
           <input id="tag2value" type="text" />
           <p></p>
-          <label>Tag 3 : </label>
+          <label>Category 3 : </label>
           <input id="tag3" type="text" />
-          <label>Tag 3 value : </label>
+          <label>Trait : </label>
           <input id="tag3value" type="text" />
           <p></p>
-          <label>Tag 4 : </label>
+          <label>Category 4 : </label>
           <input id="tag4" type="text" />
-          <label>Tag 4 value : </label>
+          <label>Trait : </label>
           <input id="tag4value" type="text" />
           <p></p>
-          <label>Tag 5 : </label>
+          <label>Category 5 : </label>
           <input id="tag5" type="text" />
-          <label>Tag 5 value : </label>
+          <label>Trait : </label>
           <input id="tag5value" type="text" />
           <p></p>
-          <label>Tag 6 : </label>
+          <label>Category 6 : </label>
           <input id="tag6" type="text" />
-          <label>Tag 6 value : </label>
+          <label>Trait : </label>
           <input id="tag6value" type="text" />
           <p></p>
-          <label>Tag 7 : </label>
+          <label>Category 7 : </label>
           <input id="tag7" type="text" />
-          <label>Tag 7 value : </label>
+          <label>Trait : </label>
           <input id="tag7value" type="text" />
           <p></p>
-          <label>Tag 8 : </label>
+          <label>Category 8 : </label>
           <input id="tag8" type="text" />
-          <label>Tag 8 value : </label>
+          <label>Trait : </label>
           <input id="tag8value" type="text" />
           <p></p>
-          <label>Tag 9 : </label>
+          <label>Category 9 : </label>
           <input id="tag9" type="text" />
-          <label>Tag 9 value : </label>
+          <label>Trait : </label>
           <input id="tag9value" type="text" />
           <p></p>
-          <label>Tag 10: </label>
+          <label>Category 10: </label>
           <input id="tag10" type="text" />
-          <label>Tag 10 value: </label>
+          <label>Trait : </label>
           <input id="tag10value" type="text" />
           <button type={"submit"}> amend this Bpaper </button>
           <p>{amendMsg}</p>
@@ -711,54 +711,54 @@ export function Bpaper() {
             Add tags below: (shown as tag: tag value; minimum 1 set and rest can
             be blank)
           </p>
-          <label>Tag 1 : </label>
+          <label>Category 1 : </label>
           <input id="tag1" type="text" />
-          <label>Tag 1 value : </label>
+          <label>Trait : </label>
           <input id="tag1value" type="text" />
           <p></p>
-          <label>Tag 2 : </label>
+          <label>Category 2 : </label>
           <input id="tag2" type="text" />
-          <label>Tag 2 value : </label>
+          <label>Trait : </label>
           <input id="tag2value" type="text" />
           <p></p>
-          <label>Tag 3 : </label>
+          <label>Category 3 : </label>
           <input id="tag3" type="text" />
-          <label>Tag 3 value : </label>
+          <label>Trait : </label>
           <input id="tag3value" type="text" />
           <p></p>
-          <label>Tag 4 : </label>
+          <label>Category 4 : </label>
           <input id="tag4" type="text" />
-          <label>Tag 4 value : </label>
+          <label>Trait : </label>
           <input id="tag4value" type="text" />
           <p></p>
-          <label>Tag 5 : </label>
+          <label>Category 5 : </label>
           <input id="tag5" type="text" />
-          <label>Tag 5 value : </label>
+          <label>Trait : </label>
           <input id="tag5value" type="text" />
           <p></p>
-          <label>Tag 6 : </label>
+          <label>Category 6 : </label>
           <input id="tag6" type="text" />
-          <label>Tag 6 value : </label>
+          <label>Trait : </label>
           <input id="tag6value" type="text" />
           <p></p>
-          <label>Tag 7 : </label>
+          <label>Category 7 : </label>
           <input id="tag7" type="text" />
-          <label>Tag 7 value : </label>
+          <label>Trait : </label>
           <input id="tag7value" type="text" />
           <p></p>
-          <label>Tag 8 : </label>
+          <label>Category 8 : </label>
           <input id="tag8" type="text" />
-          <label>Tag 8 value : </label>
+          <label>Trait : </label>
           <input id="tag8value" type="text" />
           <p></p>
-          <label>Tag 9 : </label>
+          <label>Category 9 : </label>
           <input id="tag9" type="text" />
-          <label>Tag 9 value : </label>
+          <label>Trait : </label>
           <input id="tag9value" type="text" />
           <p></p>
-          <label>Tag 10: </label>
+          <label>Category 10: </label>
           <input id="tag10" type="text" />
-          <label>Tag 10 value: </label>
+          <label>Trait : </label>
           <input id="tag10value" type="text" />
           <button type={"submit"}> mint this Bpaper </button>
           <p>{mintMsg}</p>

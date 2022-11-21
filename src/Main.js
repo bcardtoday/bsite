@@ -14,6 +14,8 @@ import { Stats } from "./Pages/Stats";
 import { RankingAdv } from "./Pages/RankingAdv";
 import { SimpleBcard } from "./Pages/Simple Bcard";
 import { Postcard } from "./Pages/Postcard";
+// import { Bchat } from "./Pages/Bchat";
+// import { Test } from "./Pages/newTest";
 import "./Main.css";
 
 function Main() {
@@ -60,6 +62,14 @@ function Main() {
               Mail
             </CustomLink>
           </li>
+          {/* <li>
+            <CustomLink
+              to="/chat"
+              style={{ color: "inherit", textDecoration: "inherit" }}
+            >
+              Chat
+            </CustomLink>
+          </li> */}
           <li>
             <CustomLink
               to="/feed"
@@ -85,9 +95,6 @@ function Main() {
               Admin
             </CustomLink>
           </li>
-          {/* <li>
-            <Link to="/bchat">Bchat</Link>
-          </li> */}
         </ul>
       </nav>
       <Routes>
@@ -101,8 +108,8 @@ function Main() {
         <Route path="/" element={<Bcard />} />
         <Route path="/admin" element={<Setting />} />
         <Route path="/send" element={<SimpleBcard />} />
-
-        {/* <Route path="/bchat" element={<ChatApp />} /> */}
+        {/* <Route path="/chat" element={<Bchat />} />
+        <Route path="/test" element={<Test />} /> */}
       </Routes>
     </>
   );
