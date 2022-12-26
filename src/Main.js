@@ -14,6 +14,7 @@ import { Stats } from "./Pages/Stats";
 import { RankingAdv } from "./Pages/RankingAdv";
 import { SimpleBcard } from "./Pages/Simple Bcard";
 import { Postcard } from "./Pages/Postcard";
+import { Collection } from "./Pages/Mine";
 // import { Bchat } from "./Pages/Bchat";
 // import { Test } from "./Pages/newTest";
 import "./Main.css";
@@ -80,6 +81,14 @@ function Main() {
           </li>
           <li>
             <CustomLink
+              to="/Collection"
+              style={{ color: "inherit", textDecoration: "inherit" }}
+            >
+              Collection
+            </CustomLink>
+          </li>
+          <li>
+            <CustomLink
               to="/rank"
               style={{ color: "inherit", textDecoration: "inherit" }}
             >
@@ -108,6 +117,7 @@ function Main() {
         <Route path="/" element={<Bcard />} />
         <Route path="/admin" element={<Setting />} />
         <Route path="/send" element={<SimpleBcard />} />
+        <Route path="/collection" element={<Collection />} />
         {/* <Route path="/chat" element={<Bchat />} />
         <Route path="/test" element={<Test />} /> */}
       </Routes>
