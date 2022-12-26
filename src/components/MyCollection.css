@@ -27,7 +27,6 @@
   }
   
   .transferBcardCollection {
-    min-height: 45px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -65,50 +64,7 @@
     background-color: rgb(166, 156, 140);
   }
   
-  .paperTransferENS {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 5px 20px;
-    font-size: 16px;
-    background-color: rgb(207, 200, 187);
-  }
   
-  .previewBpaper {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 5px 20px;
-    font-size: 16px;
-    background-color: rgb(161, 173, 159);
-  }
-  
-  .updateBpaper {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 5px 20px;
-    font-size: 16px;
-    background-color: rgb(147, 158, 118);
-  }
-  
-  .makeBpaper {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 5px 20px;
-    font-size: 16px;
-    background-color: rgb(121, 135, 123);
-  }
-  
-  .addBpaper {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 5px 20px;
-    font-size: 16px;
-    background-color: rgb(96, 113, 97);
-  }
   
   .latestBpaper {
     display: flex;
@@ -121,7 +77,7 @@
   }
 
   .latestBcard {
-    display: flex;
+    /* display: flex; */
     align-items: center;
     justify-content: space-between;
     padding: 5px;
@@ -154,13 +110,13 @@
   }
   
   .BpaperReaderImage {
-    display: flex;
+    /* display: flex; */
     height: 600px;
     border-radius: 5px;
   }
 
   .BcardReaderImage {
-    display: flex;
+    /* display: flex; */
     height: 300px;
     border-radius: 5px;
   }

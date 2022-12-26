@@ -129,27 +129,67 @@ export function MyCollection() {
           } else {
             let card = await bcardContract.cards(bcardSupplyNum - i);
             let cardID = bcardSupplyNum - i;
-            let tempSVG =
-              '<svg width="600" height="320" xmlns="http://www.w3.org/2000/svg">' +
-              '<rect width="600" height="320" fill="hsl(0, 0%, 40%)"/>' +
-              '<text x="8%" y="66%" fill="hsl(0, 100%, 0%)" text-anchor="left" ' +
-              'font-size="25"' +
-              ' font-weight="bold" font-family="Bahnschrift Condensed">' +
-              card[0] +
-              "</text>" +
-              '<text x="50%" y="50%" fill="hsl(0, 0%, 90%)" text-anchor="middle" font-size="40" font-weight="bold" font-family="Bahnschrift Condensed">' +
-              "Bcard ID " +
-              cardID +
-              "</text>" +
-              '<text x="8%" y="78%" fill="hsl(0, 100%, 0%)" text-anchor="left" font-size="18" font-weight="bold" font-family="Bahnschrift Condensed">' +
-              card[1] +
-              "</text>" +
-              '<line x1="3%" y1="4%" x2="97%" y2="4%" style="stroke:rgb(130,130,130);stroke-width:2" />' +
-              '<line x1="3%" y1="96%" x2="97%" y2="96%" style="stroke:rgb(130,130,130);stroke-width:2" />' +
-              '<line x1="3%" y1="4%" x2="3%" y2="96%" style="stroke:rgb(130,130,130);stroke-width:2" />' +
-              '<line x1="97%" y1="4%" x2="97%" y2="96%" style="stroke:rgb(130,130,130);stroke-width:2" />' +
-              '<line x1="8%" y1="70%" x2="20%" y2="70%" style="stroke:rgb(0,0,0);stroke-width:2" />' +
-              "</svg>";
+            //check if this card minter has your card
+
+            var cardAddr = await bcardContract.getMinter(cardID);
+            const cardOwned = await bcardContract.balanceOf(
+              cardAddr,
+              thisBcardID
+            );
+            let cardOwned2 = parseInt(cardOwned._hex, 16);
+
+            let tempSVG = "";
+            if (cardOwned2 > 0) {
+              tempSVG =
+                '<svg width="600" height="320" xmlns="http://www.w3.org/2000/svg">' +
+                '<rect width="600" height="320" fill="hsl(47, 20%, 40%)"/>' +
+                '<rect width="600" height="320" fill="hsl(0, 0%, 40%)"/>' +
+                '<line x1="3%" y1="4%" x2="97%" y2="4%" style="stroke:rgb(182,47,83);stroke-width:5" />' +
+                '<line x1="3%" y1="96%" x2="97%" y2="96%" style="stroke:rgb(182,47,83);stroke-width:5" />' +
+                '<line x1="3%" y1="4%" x2="3%" y2="96%" style="stroke:rgb(182,47,83);stroke-width:5" />' +
+                '<line x1="97%" y1="4%" x2="97%" y2="96%" style="stroke:rgb(182,47,83);stroke-width:5" />' +
+                
+                '<text x="8%" y="66%" fill="hsl(0, 100%, 0%)" text-anchor="left" ' +
+                'font-size="25"' +
+                ' font-weight="bold" font-family="Bahnschrift Condensed">' +
+                card[0] +
+                "</text>" +
+                '<text x="50%" y="50%" fill="hsl(0, 0%, 90%)" text-anchor="middle" font-size="40" font-weight="bold" font-family="Bahnschrift Condensed">' +
+                "Bcard ID " +
+                cardID +
+                "</text>" +
+                '<text x="8%" y="78%" fill="hsl(0, 100%, 0%)" text-anchor="left" font-size="18" font-weight="bold" font-family="Bahnschrift Condensed">' +
+                card[1] +
+                "</text>" +
+                '<line x1="3%" y1="4%" x2="97%" y2="4%" style="stroke:rgb(130,130,130);stroke-width:2" />' +
+                '<line x1="3%" y1="96%" x2="97%" y2="96%" style="stroke:rgb(130,130,130);stroke-width:2" />' +
+                '<line x1="3%" y1="4%" x2="3%" y2="96%" style="stroke:rgb(130,130,130);stroke-width:2" />' +
+                '<line x1="97%" y1="4%" x2="97%" y2="96%" style="stroke:rgb(130,130,130);stroke-width:2" />' +
+                '<line x1="8%" y1="70%" x2="20%" y2="70%" style="stroke:rgb(0,0,0);stroke-width:2" />' +
+                "</svg>";
+            } else {
+              tempSVG =
+                '<svg width="600" height="320" xmlns="http://www.w3.org/2000/svg">' +
+                '<rect width="600" height="320" fill="hsl(0, 0%, 40%)"/>' +
+                '<text x="8%" y="66%" fill="hsl(0, 100%, 0%)" text-anchor="left" ' +
+                'font-size="25"' +
+                ' font-weight="bold" font-family="Bahnschrift Condensed">' +
+                card[0] +
+                "</text>" +
+                '<text x="50%" y="50%" fill="hsl(0, 0%, 90%)" text-anchor="middle" font-size="40" font-weight="bold" font-family="Bahnschrift Condensed">' +
+                "Bcard ID " +
+                cardID +
+                "</text>" +
+                '<text x="8%" y="78%" fill="hsl(0, 100%, 0%)" text-anchor="left" font-size="18" font-weight="bold" font-family="Bahnschrift Condensed">' +
+                card[1] +
+                "</text>" +
+                '<line x1="3%" y1="4%" x2="97%" y2="4%" style="stroke:rgb(130,130,130);stroke-width:2" />' +
+                '<line x1="3%" y1="96%" x2="97%" y2="96%" style="stroke:rgb(130,130,130);stroke-width:2" />' +
+                '<line x1="3%" y1="4%" x2="3%" y2="96%" style="stroke:rgb(130,130,130);stroke-width:2" />' +
+                '<line x1="97%" y1="4%" x2="97%" y2="96%" style="stroke:rgb(130,130,130);stroke-width:2" />' +
+                '<line x1="8%" y1="70%" x2="20%" y2="70%" style="stroke:rgb(0,0,0);stroke-width:2" />' +
+                "</svg>";
+            }
 
             var encodedData = window.btoa(tempSVG);
             var encodedData2 = "data:image/svg+xml;base64," + encodedData;
